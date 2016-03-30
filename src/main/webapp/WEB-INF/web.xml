@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    <display-name>SMP</display-name>
+    <servlet>
+    	<description>
+    	</description>
+    	<display-name>AllCompaniesInfo</display-name>
+    	<servlet-name>AllCompaniesInfo</servlet-name>
+    	<servlet-class>com.logicmonitor.msp.servlet.AllCompaniesInfo</servlet-class>
+    </servlet>
+    <servlet>
+    	<description>
+    	</description>
+    	<display-name>OneCompanyStockInfo</display-name>
+    	<servlet-name>OneCompanyStockInfo</servlet-name>
+    	<servlet-class>com.logicmonitor.msp.servlet.OneCompanyStockInfo</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    	<servlet-name>AllCompaniesInfo</servlet-name>
+    	<url-pattern>/AllCompaniesInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>OneCompanyStockInfo</servlet-name>
+    	<url-pattern>/OneCompanyStockInfo</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        </welcome-file-list>
+    </web-app>
+    

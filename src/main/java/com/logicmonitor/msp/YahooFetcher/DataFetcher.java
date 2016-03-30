@@ -1,0 +1,183 @@
+package com.logicmonitor.msp.YahooFetcher;
+
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import com.logicmonitor.msp.domain.StockInfo;
+import com.logicmonitor.msp.domain.StockPrice;
+import com.mysql.jdbc.StringUtils;
+
+import yahoofinance.Stock;
+
+import yahoofinance.YahooFinance;
+import yahoofinance.histquotes.HistoricalQuote;
+import yahoofinance.histquotes.Interval;
+import yahoofinance.quotes.stock.StockQuote;
+
+public class DataFetcher {
+
+	public void getStockInfoFromYahoo(String symbol, StockInfo stockInfo) { 
+		if(StringUtils.isNullOrEmpty(symbol)) return;
+		yahoofinance.Stock yStock = YahooFinance.get(symbol);
+		stockInfo.setSymbol(yStock.getSymbol());
+		stockInfo.setName( yStock.getName());
+		stockInfo.setCurrency(yStock.getCurrency());
+		stockInfo.setStockExchange(yStock.getStockExchange());
+	}
+
+
+
+	public void getMonthLongDailyDataFromYahoo(String symbol, List<StockPrice> myStockList) {  
+		if(symbol == null) return;
+		Stock s  = YahooFinance.get(symbol);
+
+		Calendar from = Calendar.getInstance();
+		Calendar to = Calendar.getInstance();
+		from.add(Calendar.MONTH, -1); // from 1 years ago
+
+		List<HistoricalQuote> yearhistory = s.getHistory(from, to, Interval.DAILY);
+		for(HistoricalQuote hq: yearhistory) {
+			StockPrice ms = new StockPrice();
+			ms.setSymbol(s.getSymbol());
+			ms.setPrice(s.getQuote().getPrice());
+			ms.setHigh(hq.getHigh());
+			ms.setLow(hq.getLow());
+			ms.setOpen(hq.getOpen());
+			ms.setClose(hq.getClose());
+			ms.setVolume(hq.getVolume());
+			Date date = hq.getDate().getTime();
+			Timestamp timestamp = new Timestamp(date.getTime());
+			ms.setTimestamp(timestamp);
+			myStockList.add(ms);
+		}
+	}
+
+	public void getYearLongWeeklyDataFromYahoo(String symbol, List<StockPrice> myStockList) {  
+		if(symbol == null) return;
+		Stock s  = YahooFinance.get(symbol);
+		Calendar from = Calendar.getInstance();
+		Calendar to = Calendar.getInstance();
+		from.add(Calendar.YEAR, -1); // from 1 years ago
+		List<HistoricalQuote> yearhistory = s.getHistory(from, to, Interval.WEEKLY);
+		for(HistoricalQuote hq: yearhistory) {
+			StockPrice ms = new StockPrice();
+			ms.setSymbol(s.getSymbol());
+			ms.setPrice(s.getQuote().getPrice());
+			ms.setHigh(hq.getHigh());
+			ms.setLow(hq.getLow());
+			ms.setOpen(hq.getOpen());
+			ms.setClose(hq.getClose());
+			ms.setVolume(hq.getVolume());
+			Date date = hq.getDate().getTime();
+			Timestamp timestamp = new Timestamp(date.getTime());
+			ms.setTimestamp(timestamp);
+			myStockList.add(ms);
+		}
+	}
+
+	
+	public void updateWeeklyDataFromYahoo(List<String> symbols, List<StockPrice> myStockList) {
+		if(symbols.size() == 0) return;
+		String[] symbolsArr = symbols.toArray(new String[symbols.size()]);
+		
+		Map<String, Stock> yStocks  = YahooFinance.get(symbolsArr);
+
+		Calendar from = Calendar.getInstance();
+		Calendar to = Calendar.getInstance();
+		from.add(Calendar.DATE, -7); // from 1 week ago
+		for(Stock s: yStocks.values()) {
+			List<HistoricalQuote> yearhistory = s.getHistory(from, to, Interval.WEEKLY);
+			for(HistoricalQuote hq: yearhistory) {
+				StockPrice ms = new StockPrice();
+				ms.setSymbol(s.getSymbol());
+				ms.setPrice(s.getQuote().getPrice());
+				ms.setHigh(hq.getHigh());
+				ms.setLow(hq.getLow());
+				ms.setOpen(hq.getOpen());
+				ms.setClose(hq.getClose());
+				ms.setVolume(hq.getVolume());
+
+				Date date = hq.getDate().getTime();
+				Timestamp timestamp = new Timestamp(date.getTime());
+				ms.setTimestamp(timestamp);
+				myStockList.add(ms);
+			}
+		}
+	}
+	
+	
+	public void updateDailyDataFromYahoo(List<String> symbols, List<StockPrice> myStockList) {
+		if(symbols.size() == 0) return;
+		String[] symbolsArr = symbols.toArray(new String[symbols.size()]);
+		
+		Map<String, Stock> yStocks  = YahooFinance.get(symbolsArr);
+
+		Calendar from = Calendar.getInstance();
+		Calendar to = Calendar.getInstance();
+		from.add(Calendar.DATE, -1); // from 1 day ago
+
+		for(Stock s: yStocks.values()) {
+			List<HistoricalQuote> yearhistory = s.getHistory(from, to, Interval.DAILY);
+			for(HistoricalQuote hq: yearhistory) {
+				StockPrice ms = new StockPrice();
+				ms.setSymbol(s.getSymbol());
+				ms.setPrice(s.getQuote().getPrice());
+				ms.setHigh(hq.getHigh());
+				ms.setLow(hq.getLow());
+				ms.setOpen(hq.getOpen());
+				ms.setClose(hq.getClose());
+				ms.setVolume(hq.getVolume());
+
+				Date date = hq.getDate().getTime();
+				Timestamp timestamp = new Timestamp(date.getTime());
+				ms.setTimestamp(timestamp);
+				myStockList.add(ms);
+			}
+		}
+	}
+	
+	
+	public void getRealTimeDataFromYahoo(List<String> symbols, List<StockPrice> myStockList ) {  
+		if(symbols.size() == 0) return;
+		String[] symbolsArr = symbols.toArray(new String[symbols.size()]);
+
+		Map<String, Stock> yStocks = YahooFinance.get(symbolsArr);
+		for(Stock s: yStocks.values()) {
+			StockPrice ms = new StockPrice();
+			StockQuote sq = s.getQuote();
+			ms.setSymbol(s.getSymbol());
+			ms.setPrice(sq.getPrice());
+			ms.setHigh(sq.getDayHigh());
+			ms.setLow(sq.getDayLow());
+			ms.setOpen(sq.getOpen());
+			ms.setClose(sq.getPreviousClose());
+			ms.setVolume(sq.getVolume());
+			ms.setPe(s.getStats().getPe());
+			ms.setEps(s.getStats().getEps());
+			ms.setPeg(s.getStats().getPeg());
+			ms.setTimestamp(new Timestamp(sq.getLastTradeTime().getTimeInMillis()));
+			myStockList.add(ms);
+		}
+	}
+	
+	
+	public void getOneRealTimeDataFromYahoo(String symbol, StockPrice stockPrice) {  
+		if(StringUtils.isNullOrEmpty(symbol)) return;
+		Stock s = YahooFinance.get(symbol);
+		StockQuote sq = s.getQuote();
+		stockPrice.setSymbol(s.getSymbol());
+		stockPrice.setPrice(sq.getPrice());
+		stockPrice.setHigh(sq.getDayHigh());
+		stockPrice.setLow(sq.getDayLow());
+		stockPrice.setOpen(sq.getOpen());
+		stockPrice.setClose(sq.getPreviousClose());
+		stockPrice.setVolume(sq.getVolume());
+		stockPrice.setPe(s.getStats().getPe());
+		stockPrice.setEps(s.getStats().getEps());
+		stockPrice.setPeg(s.getStats().getPeg());
+		stockPrice.setTimestamp(new Timestamp(sq.getLastTradeTime().getTimeInMillis()));
+	}
+}
