@@ -111,8 +111,11 @@ public class StockDaoJdbcImpl implements StockDao {
 			String sql = "select symbol,price,high,low,open,close,timestamp, volume from realtime_stock_data where symbol=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, symbol);
+			System.out.println("HERE is daoimpl");
 			rs = ps.executeQuery();
+			
 			while(rs.next()){
+//			for(int i = 0; i < 10; i++) {
 				sp = new StockPrice();
 				mappingStockPrice(rs, sp);
 				realTimePriceList.add(sp);
@@ -135,6 +138,8 @@ public class StockDaoJdbcImpl implements StockDao {
 			ps.setString(1, symbol);
 			rs = ps.executeQuery();
 			while(rs.next()){
+			
+//			for(int i = 0; i < 10; i++) {
 				sp = new StockPrice();
 				mappingStockPrice(rs, sp);
 				dailyPriceList.add(sp);

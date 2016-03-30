@@ -79,7 +79,7 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.comcat.maven</groupId>
+				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>7</version>
 			</plugin>

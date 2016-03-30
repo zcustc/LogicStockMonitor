@@ -38,11 +38,13 @@ public class OneCompanyStockInfo extends HttpServlet {
 		int queryIdx = request.getQueryString().indexOf("=");
 		String queryParameter = request.getQueryString().substring(queryIdx+1, request.getQueryString().length());
 		String[] querys = queryParameter.split("_");
-	
+	System.out.println("HERE is do get");
 		StockDao dao = new StockDaoJdbcImpl();
 		if(querys.length > 0) {
 			if(querys.length == 1) {
+				System.out.println("HERE is real time");
 				stockPriceList = dao.getRealTimeData(queryParameter);
+				System.out.println(stockPriceList);
 			} else if(querys[1].equals("Year")) {
 				stockPriceList = dao.getWeeklyData(querys[2]);
 			} else if(querys[1].equals("Month")) {
