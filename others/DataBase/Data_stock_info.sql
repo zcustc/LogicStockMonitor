@@ -30,7 +30,7 @@ CREATE TABLE `stock_info` (
   `stock_exchange` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `symbol_UNIQUE` (`symbol`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `stock_info` (
 
 LOCK TABLES `stock_info` WRITE;
 /*!40000 ALTER TABLE `stock_info` DISABLE KEYS */;
-INSERT INTO `stock_info` VALUES (1,'GOG','google','USD','NSQ'),(3,'IT','isdni','USD','NSQ'),(4,'GOOOOOG','google','USD','NSQ');
+INSERT INTO `stock_info` VALUES (44,'GM','General Motors Company Common S','USD','NYQ'),(50,'GOOG','Alphabet Inc.','USD','NMS'),(52,'VRNG','Vringo, Inc.','USD','NCM');
 /*!40000 ALTER TABLE `stock_info` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-29  9:18:33
+-- Dump completed on 2016-03-30  4:07:48
