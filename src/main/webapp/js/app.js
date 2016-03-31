@@ -62,8 +62,8 @@
             if (stockSymbol) {
                 $http.get('YahooRealtimeData', { responseType: 'json', params: { symbol: stockSymbol } }).then(
                     function(res) {
-                        console.log("Fetch price:");
-                        console.log(res.data);
+                        // console.log("Fetch price:");
+                        // console.log(res.data);
                         angular.merge($scope.oneStock, res.data);
                         deferred.resolve();
 
@@ -82,13 +82,13 @@
         function getInfoBySymbol(stockSymbol) {
             var deferred = $q.defer();
 
-            console.log("new stock's symbol");
+            // console.log("new stock's symbol");
             console.log(stockSymbol);
             if (stockSymbol) {
                 $http.get('getOneInfo', { responseType: 'json', params: { symbol: stockSymbol } }).then(
                     function(res) {
-                        console.log("Fetch company info:");
-                        console.log(res.data);
+                        // console.log("Fetch company info:");
+                        // console.log(res.data);
                         angular.merge($scope.oneStock, res.data);
                         deferred.resolve();
 
@@ -128,29 +128,31 @@
 
 
 
+        function objectWithPropExists(array1, propName, propVal) {
+            for (var i = 0, k = array1.length; i < k; i++) {
+                if (array1[i][propName] === propVal) return true;
+            }
+            return false;
+        }
 
 
         // add new stock in stock table page
         function addStock(stockSymbol) {
+            $log.log("addStock");
+            if (!(objectWithPropExists($scope.stockArr,'symbol', stockSymbol))) {
 
-            addStockDB(stockSymbol).then(function() {
-                // console.log("new record has been added into database");
-                getInfoBySymbol(stockSymbol).then(function() {
-                    // console.log("stock info getting");
-                    getPriceBySymbol(stockSymbol).then(function() {
-                        // console.log("getting stock price");
-                        // $log.log("current stock info and price");
-                        // $log.log($scope.oneStock);
-                        $scope.stockArr.push($scope.oneStock);
-                        $scope.oneStock = {};
-
-                        // $log.log("current stock array");
-                        // $log.log($scope.stockArr);
+                addStockDB(stockSymbol).then(function() {
+                    getInfoBySymbol(stockSymbol).then(function() {
+                        getPriceBySymbol(stockSymbol).then(function() {
+                            $scope.stockArr.push($scope.oneStock);
+                            $scope.oneStock = {};
+                        });
                     });
                 });
-            });
 
-
+            } else {
+                window.alert("You aleary subscribed to this company, how about try something else :P");
+            }
         }
 
         function removeByKey(array, params) {
@@ -166,12 +168,18 @@
         }
 
         function deleteStock(stockSymbol) {
+            // console.log(" deleteStock.");
+            // console.log($scope.stockArr);
             $http.get('delOneStock', { params: { symbol: stockSymbol } }).then(
                 function(res) {
+
+                     // console.log("return from service");
                     removeByKey($scope.stockArr, {
                         key: 'symbol',
                         value: stockSymbol
                     });
+                    // console.log("return from removeByKey.");
+                    // console.log($scope.stockArr);
                 },
                 function(res) {
                     console.log("Returned info error.");

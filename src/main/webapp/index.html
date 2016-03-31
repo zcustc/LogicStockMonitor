@@ -83,7 +83,7 @@
                             <div ng-model="history_price">
                                 <!-- <div ng-show="!isRealTime" ng-model="history_price"> -->
                                 <!-- {{history_price}} -->
-                                <li ng-repeat="stock_price in history_price|limitTo:30"><span>Symbol: {{ stock_price.symbol }}</span><span> </span><span>Price: {{ stock_price.price }}</span> <span> Time: {{ stock_price.timestamp }}</span> </li>
+                                <li ng-repeat="stock_price in history_price|limitTo:50"><span>Symbol: {{ stock_price.symbol }}</span><span> </span><span>Price: {{ stock_price.price }}</span> <span> Time: {{ stock_price.timestamp }}</span> </li>
                             </div>
                         </div>
                         <div class="col-md-2">
