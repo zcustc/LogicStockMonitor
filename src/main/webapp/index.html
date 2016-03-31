@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>PStock Monitor System | Mia Jia</title>
+    <title>Stock Monitor System | Mia Jia</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <!-- <link rel="stylesheet" href="styles/layout.css" type="text/css"> -->
@@ -75,16 +75,22 @@
                     </div>
                     <!-- row -->
                     <div class="row">
-                        <div class="col-md-4">
-                            <div ng-model="history_price">
+                        <div class="col-md-2">
 
-                            <!-- <div ng-show="!isRealTime" ng-model="history_price"> -->
+                        </div>
+                        <div class="col-md-8">
+                            <h2>History Price </h2>
+                            <div ng-model="history_price">
+                                <!-- <div ng-show="!isRealTime" ng-model="history_price"> -->
                                 <!-- {{history_price}} -->
-                                <li ng-repeat="stock_price in history_price|limitTo:10"><span>Symbol: {{ stock_price.symbol }}</span><span> </span><span>Price: {{ stock_price.price }}</span> <span> Time: {{ stock_price.timestamp }}</span> </li>
+                                <li ng-repeat="stock_price in history_price|limitTo:30"><span>Symbol: {{ stock_price.symbol }}</span><span> </span><span>Price: {{ stock_price.price }}</span> <span> Time: {{ stock_price.timestamp }}</span> </li>
                             </div>
                         </div>
+                        <div class="col-md-2">
+
+                        </div>
                         <!-- d3 table -->
-                        <div class="col-md-8">
+                        <!-- <div class="col-md-8">
                             <div class="wrapper row2">
                                 <div id="container" class="clear">
                                     <div>
@@ -115,13 +121,12 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- end: row -->
-                 
+                    </div>  -->
+                        <!-- end: row -->
                 </article>
             </ul>
-        </div>
-        <!-- content -->
+            </div>
+            <!-- content -->
 </body>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>

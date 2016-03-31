@@ -208,39 +208,6 @@
                     console.log($scope.history_price);
                     $scope.updateChart();
 
-                    // if (symbolTimeRange.indexOf("Year") != -1) {
-                    //     angular.forEach($scope.history_price, function(item, index) {
-                    //         $scope.yearHistoryPriceHighArr.push(item.high);
-                    //         $scope.yearHistoryPriceArr.push(item.price);
-                    //         $scope.timeRangeArr.push(item.timestamp);
-                    //     });
-
-                    //     if (document.getElementById('yAxisSelect0').value.indexOf("Price") != -1) {
-                    //         yAxis = $scope.yearHistoryPriceArr;
-                    //     } else {
-                    //         yAxis = $scope.yearHistoryPriceHighArr;
-                    //     }
-                    //     StockView.updateChart();
-                    //     console.log($scope.timeRangeArr);
-                    //     console.log($scope.yearHistoryPriceHighArr);
-                    //     console.log($scope.yearHistoryPriceArr);
-                    // } else {
-                    //     angular.forEach($scope.history_price, function(item, index) {
-                    //         $scope.monthHistoryPriceHighArr.push(item.high);
-                    //         $scope.monthHistoryPriceArr.push(item.price);
-                    //         $scope.timeRangeArr.push(item.timestamp);
-                    //     });
-                    //     if (document.getElementById('yAxisSelect0').value.indexOf("Price") != -1) {
-                    //         yAxis = $scope.monthHistoryPriceArr;
-                    //     } else {
-                    //         yAxis = $scope.monthHistoryPriceHighArr;
-                    //     }
-                    //     StockView.updateChart();
-                    //     console.log($scope.timeRangeArr);
-                    //     console.log($scope.monthHistoryPriceHighArr);
-                    //     console.log($scope.monthHistoryPriceArr);
-                    // }
-
                 },
                 function(res) {
                     $scope.history_price = [];
@@ -249,7 +216,6 @@
             );
         };
 
-        // $scope.StockViewSelectMenu = {
         function changeY() {
             $scope.resetChartButton();
             $scope.updateChart();
