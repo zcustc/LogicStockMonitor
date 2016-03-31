@@ -4,19 +4,21 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+/**
+ * class JdbcUtilsSingleton provide JDBC connection via singleton pattern 
+ */
 
 public final class JdbcUtilsSingleton {
 	private static String url = "jdbc:mysql://localhost:8889/data?allowMultiQueries=true";
     private static String user = "root";
     private static String password = "123";
 
-	// private static JdbcUtilsSing instance = new JdbcUtilsSing();
 	private static JdbcUtilsSingleton instance = null;
 
 	private JdbcUtilsSingleton() {
 	}
 
+	// creat one and only one JdbcUtilsSingleton instance
 	public static JdbcUtilsSingleton getInstance() {
 		if (instance == null) {
 			synchronized (JdbcUtilsSingleton.class) {
@@ -40,6 +42,7 @@ public final class JdbcUtilsSingleton {
 		return DriverManager.getConnection(url, user, password);
 	}
 
+	// close ResultSet, Statement, Connection 
 	public void free(ResultSet rs, Statement st, Connection conn) {
 		try {
 			if (rs != null)

@@ -16,9 +16,11 @@ import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.histquotes.Interval;
 import yahoofinance.quotes.stock.StockQuote;
-
+/**
+ * DataFetcher class to fetch real time or history data from YahooAPI
+ */
 public class DataFetcher {
-
+	// get one stock's static information from YahooAPI 
 	public void getStockInfoFromYahoo(String symbol, StockInfo stockInfo) { 
 		if(StringUtils.isNullOrEmpty(symbol)) return;
 		yahoofinance.Stock yStock = YahooFinance.get(symbol);
@@ -29,11 +31,10 @@ public class DataFetcher {
 	}
 
 
-
+	// get one stock's month long daily stock price information from YahooAPI 
 	public void getMonthLongDailyDataFromYahoo(String symbol, List<StockPrice> myStockList) {  
 		if(symbol == null) return;
 		Stock s  = YahooFinance.get(symbol);
-
 		Calendar from = Calendar.getInstance();
 		Calendar to = Calendar.getInstance();
 		from.add(Calendar.MONTH, -1); // from 1 years ago
@@ -55,6 +56,7 @@ public class DataFetcher {
 		}
 	}
 
+	// get one stock's year long weekly stock price information from YahooAPI 
 	public void getYearLongWeeklyDataFromYahoo(String symbol, List<StockPrice> myStockList) {  
 		if(symbol == null) return;
 		Stock s  = YahooFinance.get(symbol);
@@ -78,13 +80,11 @@ public class DataFetcher {
 		}
 	}
 
-	
+	// update all stock's year long weekly stock price information from YahooAPI 
 	public void updateWeeklyDataFromYahoo(List<String> symbols, List<StockPrice> myStockList) {
 		if(symbols.size() == 0) return;
 		String[] symbolsArr = symbols.toArray(new String[symbols.size()]);
-		
 		Map<String, Stock> yStocks  = YahooFinance.get(symbolsArr);
-
 		Calendar from = Calendar.getInstance();
 		Calendar to = Calendar.getInstance();
 		from.add(Calendar.DATE, -7); // from 1 week ago
@@ -107,14 +107,12 @@ public class DataFetcher {
 			}
 		}
 	}
-	
-	
+
+	// update all stock's month long daily stock price information from YahooAPI 
 	public void updateDailyDataFromYahoo(List<String> symbols, List<StockPrice> myStockList) {
 		if(symbols.size() == 0) return;
 		String[] symbolsArr = symbols.toArray(new String[symbols.size()]);
-		
 		Map<String, Stock> yStocks  = YahooFinance.get(symbolsArr);
-
 		Calendar from = Calendar.getInstance();
 		Calendar to = Calendar.getInstance();
 		from.add(Calendar.DATE, -1); // from 1 day ago
@@ -138,8 +136,8 @@ public class DataFetcher {
 			}
 		}
 	}
-	
-	
+
+	// get all stocks' real time stock price information from YahooAPI 
 	public void getRealTimeDataFromYahoo(List<String> symbols, List<StockPrice> myStockList ) {  
 		if(symbols.size() == 0) return;
 		String[] symbolsArr = symbols.toArray(new String[symbols.size()]);
@@ -162,8 +160,8 @@ public class DataFetcher {
 			myStockList.add(ms);
 		}
 	}
-	
-	
+
+	// get one stock's real time stock price information from YahooAPI 
 	public void getOneRealTimeDataFromYahoo(String symbol, StockPrice stockPrice) {  
 		if(StringUtils.isNullOrEmpty(symbol)) return;
 		Stock s = YahooFinance.get(symbol);

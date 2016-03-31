@@ -34,10 +34,16 @@
 			<version>5.1.6</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.google.code.gson</groupId>
-		    <artifactId>gson</artifactId>
-		    <version>2.6.2</version>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.6.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>smart-table</artifactId>
+			<version>b1d6033</version>
+		</dependency>
+
 		<!-- ========== Testing ========== -->
 		<dependency>
 			<groupId>junit</groupId>

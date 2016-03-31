@@ -2,18 +2,10 @@ package com.logicmonitor.msp.domain;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
+/*
+ * class to maintain dynamic price information of one stock
+ */
 public class StockPrice{
-	//	sample input
-	//	symbol: INTC
-	//	name: Intel Corporation
-	//	currency: USD
-	//	stockExchange: NasdaqNM
-	//	quote: Ask: 32.25, Bid: 32.24, Price: 32.2485, Prev close: 33.62
-	//	stats: EPS: 2.019, PE: 16.65, PEG: 1.74
-	//	dividend: Pay date: Mon Dec 01 06:00:00 CET 2014, Ex date: Tue Aug 05 06:00:00 CEST 2014, Annual yield: 2.68%
-	//	history: null
-	//quote
 	String symbol = "";
 	BigDecimal price = new BigDecimal(0);
 	BigDecimal high = new BigDecimal(0);
@@ -21,14 +13,11 @@ public class StockPrice{
 	BigDecimal open = new BigDecimal(0);
 	BigDecimal close = new BigDecimal(0);
 	long volume = 0;
-	//stats
 	BigDecimal pe = new BigDecimal(0);
 	BigDecimal eps = new BigDecimal(0);
 	BigDecimal peg = new BigDecimal(0);
 
 	Timestamp timestamp;
-
-
 
 	public String getSymbol() {
 		return symbol;
@@ -57,9 +46,6 @@ public class StockPrice{
 	public void setClose(BigDecimal close) {
 		this.close = close;
 	}
-
-
-
 
 	public BigDecimal getPrice() {
 		return price;
@@ -127,8 +113,6 @@ public class StockPrice{
 	public void setVolume(long volume) {
 		this.volume = volume;
 	}
-
-
 }
 
 

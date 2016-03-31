@@ -11,17 +11,64 @@
     <servlet>
     	<description>
     	</description>
-    	<display-name>OneCompanyStockInfo</display-name>
-    	<servlet-name>OneCompanyStockInfo</servlet-name>
-    	<servlet-class>com.logicmonitor.msp.servlet.OneCompanyStockInfo</servlet-class>
+    	<display-name>GetOneHistoryPrice</display-name>
+    	<servlet-name>GetOneHistoryPrice</servlet-name>
+    	<servlet-class>com.logicmonitor.msp.servlet.GetOneHistoryPrice</servlet-class>
     </servlet>
+    <servlet>
+    	<description>
+    	</description>
+    	<display-name>YahooRealtimeData</display-name>
+    	<servlet-name>YahooRealtimeData</servlet-name>
+    	<servlet-class>com.logicmonitor.msp.servlet.YahooRealtimeData</servlet-class>
+    </servlet>
+    <servlet>
+    	<description>
+    	</description>
+    	<display-name>getOneInfo</display-name>
+    	<servlet-name>getOneInfo</servlet-name>
+    	<servlet-class>com.logicmonitor.msp.servlet.getOneInfo</servlet-class>
+    </servlet>
+    
+    <servlet>
+    	<description>
+    	</description>
+    	<display-name>delOneStock</display-name>
+    	<servlet-name>delOneStock</servlet-name>
+    	<servlet-class>com.logicmonitor.msp.servlet.delOneStock</servlet-class>
+    </servlet>
+    <servlet>
+    	<description>
+    	</description>
+    	<display-name>addOneStockToService</display-name>
+    	<servlet-name>addOneStockToService</servlet-name>
+    	<servlet-class>com.logicmonitor.msp.servlet.addOneStockToService</servlet-class>
+    </servlet>
+   
     <servlet-mapping>
     	<servlet-name>AllCompaniesInfo</servlet-name>
     	<url-pattern>/AllCompaniesInfo</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-    	<servlet-name>OneCompanyStockInfo</servlet-name>
-    	<url-pattern>/OneCompanyStockInfo</url-pattern>
+    	<servlet-name>GetOneHistoryPrice</servlet-name>
+    	<url-pattern>/GetOneHistoryPrice</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>YahooRealtimeData</servlet-name>
+    	<url-pattern>/YahooRealtimeData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>getOneInfo</servlet-name>
+    	<url-pattern>/getOneInfo</url-pattern>
+    </servlet-mapping>
+   
+    <servlet-mapping>
+    	<servlet-name>delOneStock</servlet-name>
+    	<url-pattern>/delOneStock</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>addOneStockToService</servlet-name>
+    	<url-pattern>/addOneStockToService</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

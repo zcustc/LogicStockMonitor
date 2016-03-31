@@ -1,159 +1,71 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 
 <head>
     <title>PStock Monitor System | Mia Jia</title>
-    <meta charset="iso-8859-1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles/layout.css" type="text/css">
-    <!--[if lt IE 9]><script src="scripts/html5shiv.js"></script><![endif]-->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="styles/layout.css" type="text/css"> -->
 </head>
 
-<body>
-    <div ng-app="StockMonitor" ng-controller="myController" ng-init="getCompaniesInfo()">
+<body ng-app="StockMonitor">
+    <div ng-controller="myController">
         <div class="wrapper row1">
             <header id="header" class="clear">
                 <div id="hgroup">
                     <h1><a href="#">Stock Monitor</a></h1>
                     <p/>
                     <h2>Mia Jia</h2>
+                    <p>This project is based on <a href="http://financequotes-api.com/">Yahoo Finance API</a>, Java, html5, css3, d3.js, jQuery.</p>
                     <br/>
                 </div>
             </header>
         </div>
-        
         <div id="content">
             <ul>
-                <!-- 	        	<form method='get' ng-submit="getCompaniesInfo()" ><button type="submit">Request Data</button></form>
- -->
                 <article class="clear">
                     <!--<figcaption>-->
-                    <p>This project is based on <a href="http://financequotes-api.com/">Yahoo Finance API</a>, Java, html5, css3, d3.js, jQuery.</p>
-                    <!--</figcaption>-->
-                    <!--  id=market-data-div class="id-market-data-div nwp g-floatfix"  -->
-                    <div ng-model="addCompanySymbol">
-                        <div id=price-panel class="id-price-panel inline-block">
-                            <div>
-                                <span class="pr">
-									<span id="ref_700145_l">{{company.symbol}}</span>
-                                </span>
-                                <div class="id-price-change nwp">
-                                    <span class="symbol">{{company.symbol}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="snap-panel-and-plusone">
-                            <div class="snap-panel">
-                                <table class="snap-data">
-                                    <tr>
-                                        <td class="key" data-snapfield="name">Name
-                                        </td>
-                                        <td class="val">google
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="key" data-snapfield="timestamp">Time
-                                        </td>
-                                        <td class="val">Mar 28, 4:01PM EDT
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="key" data-snapfield="exchange">Exchange
-                                        </td>
-                                        <td class="val">NYSEARCA
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="key" data-snapfield="currency">Currency
-                                        </td>
-                                        <td class="val">{{company.currency}}</td>
-                                    </tr>
-                                </table>
-                                <table class="snap-data">
-                                    <tr>
-                                        <td class="key" data-snapfield="range">Range
-                                        </td>
-                                        <td class="val">202.71 - 203.86
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="key" data-snapfield="range_52week">52 week
-                                        </td>
-                                        <td class="val">181.02 - 213.78
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="key" data-snapfield="open">Open
-                                        </td>
-                                        <td class="val">203.62
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="key" data-snapfield="vol_and_avg">Vol.
-                                        </td>
-                                        <td class="val">13.65M
-                                        </td>
-                                    </tr>
-                                </table>
-                                <table class="snap-data">
-                                    <tr>
-                                        <td class="key" data-snapfield="pe_ratio">P/E
-                                        </td>
-                                        <td class="val">-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="key" data-snapfield="eps">EPS
-                                        </td>
-                                        <td class="val">-1.46
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="key" data-snapfield="shares">Shares
-                                        </td>
-                                        <td class="val">893.38M
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
+                    <div ng-model="addCompanySymbol" style="padding-bottom:15px;">
+                        <form name="newCompany" method="get" ng-submit="$event.preventDefault()">
+                            <input type="text" name="addStock" ng-model="stockSymbol" placeholder="Type a stock symbol...">
+                            <button ng-click="addStock(stockSymbol)">Add</button>
+                        </form>
                     </div>
                     <div style="padding-bottom:15px;">
                         <table id="list-table">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th data-field="#">#</th>
                                         <th data-field="Symbol">Symbol</th>
                                         <th data-field="company_name">Company Name</th>
-                                        <th data-field="stock_exchange">Stock Exchange</th>
-                                        <th data-field="currency">Currency</th>
+                                        <th data-field="stock_exchange and currency">Stock Exchange | Currency</th>
+                                        <th data-field="price">Price</th>
+                                        <th data-field="range">Range</th>
+                                        <th data-field="openc">Open/Close</th>
+                                        <th data-field="close">Previous Close</th>
+                                        <th data-field="volume">Volume</th>
                                         <th data-field="action" data-formatter="actionFormatter" data-events="actionEvents">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody ng-repeat="company in stock_companies">
-                                    <tr ng-click="getRealtimeCompanyStockInfo(company.symbol)">
-                                        <th scope="row">{{$index+1}}</th>
-                                        <td>{{company.symbol}}</td>
+                                <tbody>
+                                    <tr ng-repeat="stock in stockArr">
+                                        <td>{{stock.symbol}}</td>
+                                        <td>{{stock.name}}</td>
+                                        <td>{{stock.stockExchange}} | {{stock.currency}}</td>
+                                        <td>{{stock.price}}</td>
+                                        <td>{{stock.low}}-{{stock.high}}</td>
+                                        <td>{{stock.open}}</td>
+                                        <td>{{stock.close}}</td>
+                                        <td>{{stock.volume}}</td>
                                         <td>
-                                            <div contenteditable>{{company.name}}</div>
-                                        </td>
-                                        <td>
-                                            <div contenteditable>{{company.stockExchange}}</div>
-                                        </td>
-                                        <td>
-                                            <div contenteditable>{{company.currency}}</div>
-                                        </td>
-                                        <td>
-                                        <!-- ng-submit="getPeriodCompanyStockInfo('A_Year_'+company.symbol)" -->
                                             <form>
-                                                <button ng-click ="getPeriodCompanyStockInfo('A_Year_'+company.symbol)">Year History</button>
+                                                <button ng-click="getPeriodCompanyStockInfo('A_Year_'+stock.symbol)">Year History</button>
                                             </form>
                                             <form>
-                                                <button ng-click="getPeriodCompanyStockInfo('A_Month_'+company.symbol)">Month History</button>
+                                                <button ng-click="getPeriodCompanyStockInfo('A_Month_'+stock.symbol)">Month History</button>
                                             </form>
                                             <form>
-                                                <button ng-click="deleteCompany(company)">Delete</button>
+                                                <button ng-click="deleteStock(stock.symbol)">Delete</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -161,112 +73,64 @@
                             </table>
                         </table>
                     </div>
-                    <div>
-                        <form method="post" ng-submit="addCompany()">
-                            <input type="text" name="add_company_symbol" ng-model="addCompanySymbol" placeholder="Type a company symbol...">
-                            <button type="submit">Add</button>
-                        </form>
-                    </div>
                     <!-- row -->
-        <div class="row">
-            <div class="col-md-8">
-                <div ng-show="isRealTime" ng-model="history_price">
-                    <!-- {{company_info}} -->
-                    <ul> 
-                    	<li ng-repeat="company in company_info|limitTo:10">{{ company }}</li>
-                    </ul>
-                </div>
-                <div ng-show="!isRealTime" ng-model="history_price">
-                    <!-- {{history_price}} -->
-                    <ul>
-                    	<li ng-repeat="company in history_price|limitTo:10">{{ company }}</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="wrapper row2">
-                    <div id="container" class="clear">
-                        <div>
-                            <h2>Stock Monitor</h2>
-                            <label for="rangeSelect0">Select Range</label>
-                            <!--      <select name="Parking" id="rangeSelect0" onchange="StockViewSelectMenu.changeRange()"> -->
-                            <select id="rangeSelect0" onchange="StockViewSelectMenu.changeRange()">
-                                <option selected="selected">RealTime Data</option>
-                                <option>Monthly Data</option>
-                                <option>Yearly Data</option>
-                            </select>
-                            <label for="yAxisSelect0">Select y axis</label>
-                            <select name="avgNumSelect" id="yAxisSelect0" onchange="StockViewSelectMenu.changeY()">
-                                <option selected="selected">price</option>
-                                <option>High</option>
-                            </select>
-                            <label for="chartType0">Select Chart Type</label>
-                            <select name="chartTypeSelect" id="chartType0" onchange="StockViewSelectMenu.changeOrder()">
-                                <option class="barChart" selected="selected">Bar Chart</option>
-                                <option class="lineChart">Line Chart</option>
-                                <option class="barChart">Bar Chart</option>
-                                <!--  <option class="boxPlot">Box Plot</option>
-	        <option class="treeMap">Tree Map</option>
-	        <option class="pieChart">Pie Chart</option> -->
-                            </select>
-                            <label for="sortSelect0" id="label_sortSelect0">Select Order</label>
-                            <select name="sortSelect" id="sortSelect0" onchange="StockViewSelectMenu.changeOrder()">
-                                <option class="origin" selected="selected">Original Order</option>
-                                <option class="asc">Ascending Order</option>
-                                <option class="desc">Descending Order</option>
-                            </select>
-                            <br/>
-                            <br/>
-                            <svg id="StockView" width="1000" height="400">
-                            </svg>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div ng-model="history_price">
+
+                            <!-- <div ng-show="!isRealTime" ng-model="history_price"> -->
+                                <!-- {{history_price}} -->
+                                <li ng-repeat="stock_price in history_price|limitTo:10"><span>Symbol: {{ stock_price.symbol }}</span><span> </span><span>Price: {{ stock_price.price }}</span> <span> Time: {{ stock_price.timestamp }}</span> </li>
+                            </div>
                         </div>
-                        <br/>
-                        <br/>
+                        <!-- d3 table -->
+                        <div class="col-md-8">
+                            <div class="wrapper row2">
+                                <div id="container" class="clear">
+                                    <div>
+                                        <h2>Stock Monitor</h2>
+                                        <label for="yAxisSelect0">Select y axis</label>
+                                        <select name="avgNumSelect" id="yAxisSelect0" onchange="changeY()">
+                                            <option selected="selected">Price</option>
+                                            <option>High</option>
+                                        </select>
+                                        <label for="chartType0">Select Chart Type</label>
+                                        <select name="chartTypeSelect" id="chartType0" onchange="changeChart()">
+                                            <option class="lineChart" >Line Chart</option>
+                                            <option class="barChart" selected="selected">Bar Chart</option>
+                                        </select>
+                                        <label for="sortSelect0" id="label_sortSelect0">Select Order</label>
+                                        <select name="sortSelect" id="sortSelect0" onchange="changeOrder()">
+                                            <option class="origin" selected="selected">Original Order</option>
+                                            <option class="asc">Ascending Order</option>
+                                            <option class="desc">Descending Order</option>
+                                        </select>
+                                        <br/>
+                                        <br/>
+                                        <svg id="StockView" width="1000" height="400">
+                                        </svg>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <!-- end: row -->
-                    <!-- <div ng-show="isRealTime" ng-model="company_info"> -->
-                    <!--<div ng-show="isRealTime" ng-model="history_price">
- 						{{company_info}}
- 						
-					</div>
-                  	<div ng-show="!isRealTime" ng-model="history_price">
-						 {{history_price}} 
-					</div> -->
+                    <!-- end: row -->
+                 
                 </article>
             </ul>
         </div>
         <!-- content -->
 </body>
-<script>
-function actionFormatter(value, row, index) {
-    return [
-        '<a class="remove ml10" href="javascript:void(0)" title="Remove">',
-        '<i class="glyphicon glyphicon-remove"></i>',
-        '</a>'
-    ].join('');
-}
-
-window.actionEvents = {
-    'click .remove': function(e, value, row, index) {
-        alert('You click remove icon, row: ' + JSON.stringify(row));
-        console.log(value, row, index);
-    }
-};
-</script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+<script src="js/app.js"></script>
 <script src="http://www.d3plus.org/js/d3.js"></script>
 <script src="http://www.d3plus.org/js/d3plus.js"></script>
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="http://www.d3plus.org/js/topojson.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
-<script src="js/requestData.js"></script>
-<script src="js/stockView.js"></script>
-<script src="js/stockViewSelectMenu.js"></script>
-<script src="js/loadData.js"></script>
 
 </html>

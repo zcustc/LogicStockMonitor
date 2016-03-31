@@ -3,7 +3,7 @@ package com.logicmonitor.msp.dao;
 public class DaoException extends RuntimeException {
 
   /**
-   * 
+   * RuntimeException implementation class to catch DaoException
    */
   private static final long serialVersionUID = 1L;
 

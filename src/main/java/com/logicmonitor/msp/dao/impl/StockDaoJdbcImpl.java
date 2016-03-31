@@ -1,37 +1,32 @@
 package com.logicmonitor.msp.dao.impl;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.mockito.asm.tree.analysis.Value;
 
 import com.logicmonitor.msp.dao.JdbcUtilsSingleton;
 import com.logicmonitor.msp.dao.DaoException;
-//import com.logicmonitor.msp.dao.DaoException;
 import com.logicmonitor.msp.dao.StockDao;
 import com.logicmonitor.msp.domain.StockInfo;
 import com.logicmonitor.msp.domain.StockPrice;
-import com.logicmonitor.msp.service.StockService;
-
+/**
+ * StockDao implementation class StockDaoJdbcImpl
+ */
 public class StockDaoJdbcImpl implements StockDao {
 	private Connection conn = null;
 	PreparedStatement ps = null;
 	Statement st = null;
 	private ResultSet rs = null;
 
+	
 	public synchronized void addStockInfo(StockInfo info){
 		try {
 			conn = JdbcUtilsSingleton.getInstance().getConnection();
@@ -50,6 +45,7 @@ public class StockDaoJdbcImpl implements StockDao {
 		}
 	}
 
+	
 	public synchronized void addRealTimeData(StockPrice realTimeStock) {
 		try {
 			conn = JdbcUtilsSingleton.getInstance().getConnection();
@@ -64,6 +60,8 @@ public class StockDaoJdbcImpl implements StockDao {
 			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 	}
+	
+	
 	public synchronized void addDailyData(StockPrice dailyStock){
 		try {
 			conn = JdbcUtilsSingleton.getInstance().getConnection();
@@ -78,6 +76,8 @@ public class StockDaoJdbcImpl implements StockDao {
 			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 	}
+	
+	
 	public synchronized void addWeeklyData(StockPrice weeklyStock){
 		try {
 			conn = JdbcUtilsSingleton.getInstance().getConnection();
@@ -92,6 +92,8 @@ public class StockDaoJdbcImpl implements StockDao {
 			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 	}
+	
+	
 	private void mappingPs(PreparedStatement ps, StockPrice stock) throws SQLException {
 		ps.setString(1, stock.getSymbol());
 		ps.setBigDecimal(2, stock.getPrice());
@@ -103,7 +105,8 @@ public class StockDaoJdbcImpl implements StockDao {
 		ps.setLong(8, stock.getVolume());
 	}
 
-	public synchronized List<StockPrice> getRealTimeData(String symbol) {
+	
+	public List<StockPrice> getRealTimeData(String symbol) {
 		List<StockPrice> realTimePriceList = new ArrayList<StockPrice>();
 		StockPrice sp = null;
 		try {
@@ -111,11 +114,9 @@ public class StockDaoJdbcImpl implements StockDao {
 			String sql = "select symbol,price,high,low,open,close,timestamp, volume from realtime_stock_data where symbol=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, symbol);
-			System.out.println("HERE is daoimpl");
 			rs = ps.executeQuery();
-			
-			while(rs.next()){
-//			for(int i = 0; i < 10; i++) {
+			for(int i = 0; i < 1000 && rs.next(); i++) {
+				//			while(rs.next()){
 				sp = new StockPrice();
 				mappingStockPrice(rs, sp);
 				realTimePriceList.add(sp);
@@ -128,7 +129,8 @@ public class StockDaoJdbcImpl implements StockDao {
 		return realTimePriceList;
 	}
 
-	public synchronized List<StockPrice> getDailyData(String symbol) {
+	
+	public List<StockPrice> getDailyData(String symbol) {
 		List<StockPrice> dailyPriceList = new ArrayList<StockPrice>();
 		StockPrice sp = null;
 		try {
@@ -137,9 +139,8 @@ public class StockDaoJdbcImpl implements StockDao {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, symbol);
 			rs = ps.executeQuery();
-			while(rs.next()){
-			
-//			for(int i = 0; i < 10; i++) {
+			//			while(rs.next()){
+			for(int i = 0; i < 1000 && rs.next(); i++) {
 				sp = new StockPrice();
 				mappingStockPrice(rs, sp);
 				dailyPriceList.add(sp);
@@ -152,7 +153,9 @@ public class StockDaoJdbcImpl implements StockDao {
 		return dailyPriceList;
 
 	}
-	public synchronized List<StockPrice> getWeeklyData(String symbol) {
+	
+	
+	public List<StockPrice> getWeeklyData(String symbol) {
 		List<StockPrice> weeklyPriceList = new ArrayList<StockPrice>();
 		StockPrice sp = null;
 		try {
@@ -161,7 +164,8 @@ public class StockDaoJdbcImpl implements StockDao {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, symbol);
 			rs = ps.executeQuery();
-			while(rs.next()){
+			for(int i = 0; i < 1000 && rs.next(); i++) {
+
 				sp = new StockPrice();
 				mappingStockPrice(rs,sp);
 				weeklyPriceList.add(sp);
@@ -175,8 +179,7 @@ public class StockDaoJdbcImpl implements StockDao {
 	}
 
 
-
-	public synchronized StockInfo getOneInfoFromDBDAO(String symbol){
+	public StockInfo getOneInfoFromDBDAO(String symbol){
 		StockInfo stockInfo = null;
 		List<StockInfo> stockInfoList = new ArrayList<StockInfo>();
 		try {
@@ -198,7 +201,9 @@ public class StockDaoJdbcImpl implements StockDao {
 		}
 		return stockInfoList.get(0);
 	}
-	public synchronized List<StockInfo> getAllInfoFromDBDAO() { 
+	
+	
+	public List<StockInfo> getAllInfoFromDBDAO() { 
 		StockInfo stockInfo = null;
 		List<StockInfo> stockInfoList = new ArrayList<StockInfo>();
 		String sql = "select symbol,stock_name,currency,stock_exchange from stock_info";
@@ -218,7 +223,9 @@ public class StockDaoJdbcImpl implements StockDao {
 		}
 		return stockInfoList;
 	}
-	public synchronized List<StockInfo> getSelectInfoFromDBDAO(List<String> symbolList) {
+	
+	
+	public List<StockInfo> getSelectInfoFromDBDAO(List<String> symbolList) {
 		StockInfo stockInfo = null;
 		Map<String, StockInfo> stockInfoMap = new HashMap<String, StockInfo>();
 		String sql = "select symbol,stock_name,currency,stock_exchange from stock_info";
@@ -244,10 +251,8 @@ public class StockDaoJdbcImpl implements StockDao {
 		return new ArrayList<StockInfo>(stockInfoMap.values());
 	}
 
-
-
-	//	public void delRealTimeData(String symbol, Timestamp realtimeDel) {
-	public synchronized void delRealTimeData(String symbol) {
+	
+ 	public synchronized void delRealTimeData(String symbol) {
 		try {
 			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			String multiQuerySqlString = "SET SQL_SAFE_UPDATES = 0;";
@@ -261,6 +266,8 @@ public class StockDaoJdbcImpl implements StockDao {
 			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 	}
+ 	
+ 	
 	public synchronized void delInfolFromDBDAO(String symbol){
 		try {
 			conn = JdbcUtilsSingleton.getInstance().getConnection();
@@ -274,11 +281,11 @@ public class StockDaoJdbcImpl implements StockDao {
 		} finally {
 			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
-		
+
 	}
 
-	//	public void delDailyData(String symbol, Timestamp dailyDel) {
-	public synchronized void delDailyData(String symbol) {
+	
+ 	public synchronized void delDailyData(String symbol) {
 		try {
 			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			String multiQuerySqlString = "SET SQL_SAFE_UPDATES = 0;";
@@ -292,8 +299,9 @@ public class StockDaoJdbcImpl implements StockDao {
 			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 	}
-	//	public void delWeeklyData(String symbol, Timestamp weeklyDel) {
-	public synchronized void delWeeklyData(String symbol) {
+
+
+ 	public synchronized void delWeeklyData(String symbol) {
 		try {
 			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			String multiQuerySqlString = "SET SQL_SAFE_UPDATES = 0;";
@@ -308,6 +316,7 @@ public class StockDaoJdbcImpl implements StockDao {
 		}
 	}
 
+ 	
 	public synchronized void delAllFromDBDAO(String symbol) {
 		try {
 			conn = JdbcUtilsSingleton.getInstance().getConnection();
@@ -326,6 +335,8 @@ public class StockDaoJdbcImpl implements StockDao {
 		}
 
 	}
+	
+	
 	private void mappingStockPrice(ResultSet rs2, StockPrice stockPrice) throws SQLException{
 		stockPrice.setSymbol(rs.getString("symbol"));
 		stockPrice.setPrice(rs.getBigDecimal("price"));
@@ -337,6 +348,7 @@ public class StockDaoJdbcImpl implements StockDao {
 		stockPrice.setTimestamp(rs.getTimestamp("timestamp"));
 	}
 
+	
 	private void mappingStockInfo(ResultSet rs, StockInfo stockInfo) throws SQLException {
 		stockInfo.setSymbol(rs.getString("symbol"));
 		stockInfo.setName(rs.getString("stock_name"));
