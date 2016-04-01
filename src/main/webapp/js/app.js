@@ -6,7 +6,6 @@
     app.controller("myController", ['$scope', '$http', '$location', '$q', '$log', function($scope, $http, $location, $q, $log) {
 
         var vm = this;
-
         $scope.stockArr = [];
         $scope.newSymbol = '';
         $scope.oneStock = {};
@@ -14,13 +13,25 @@
         $scope.deleteStock = deleteStock;
         $scope.updateChart = updateChart;
         $scope.updateLineChart = updateLineChart;
+        $scope.updateBoxChart = updateBoxChart;
         $scope.updateBarChart = updateBarChart;
-        $scope.resetChartButton = resetChartButton;
+        // $scope.resetChartButton = resetChartButton;
         $scope.changeY = changeY;
         $scope.changeChart = changeChart;
         $scope.changeOrder = changeOrder;
-        var yAxis;
+
+
         var xAxis;
+        var yAxis;
+        var visualization;
+        // var margin = { top: 30, right: 20, bottom: 30, left: 50 };
+        // width = 600 - margin.left - margin.right;
+        // height = 270 - margin.top - margin.bottom;
+        // var x = d3.time.scale().range([0, width]);
+        // // var y = d3.scale.linear().range([height, 0]);
+        // var xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(100);
+        // var yAxis = d3.svg.axis().scale(y).orient("left").ticks(500);
+
         $scope.history_price = [];
         // $scope.timeRangeArr = [];
         // $scope.monthHistoryPriceArr = [];
@@ -139,7 +150,7 @@
         // add new stock in stock table page
         function addStock(stockSymbol) {
             $log.log("addStock");
-            if (!(objectWithPropExists($scope.stockArr,'symbol', stockSymbol))) {
+            if (!(objectWithPropExists($scope.stockArr, 'symbol', stockSymbol))) {
 
                 addStockDB(stockSymbol).then(function() {
                     getInfoBySymbol(stockSymbol).then(function() {
@@ -173,7 +184,7 @@
             $http.get('delOneStock', { params: { symbol: stockSymbol } }).then(
                 function(res) {
 
-                     // console.log("return from service");
+                    // console.log("return from service");
                     removeByKey($scope.stockArr, {
                         key: 'symbol',
                         value: stockSymbol
@@ -213,9 +224,29 @@
             $http.get('GetOneHistoryPrice', { responseType: 'json', params: { symbol: symbolTimeRange } }).then(
                 function(res) {
                     $scope.history_price = res.data;
-                    console.log($scope.history_price);
+                    // console.log($scope.history_price);
+                    // recent.sort(function(a, b) {
+                    //     return new Date(a.start).getTime() - new Date(b.start).getTime()
+                    // });
+                    $scope.history_price.sort(function(a, b) {
+                        return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
+                    });
+                    // console.log($scope.history_price);
+                    angular.forEach($scope.history_price, function(item, index) {
+                        item.index = index;
+                        item.index = item.index.toString();
+                        // console.log(item.index);
+                        // console.log(item.timestamp);
+                        //  console.log(item.high);
+                        //   console.log("_________________________");
+                        // item.timeDisplay = item.timestamp;
+                        // item.timestamp = Date.parse(new Date(item.timestamp));
+                        // var options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+                        // var date = new Date(item.timestamp);
+                        // item.timestamp = date.toLocaleString('en-US', options);
+                        // console.log(item.timestamp);
+                    });
                     $scope.updateChart();
-
                 },
                 function(res) {
                     $scope.history_price = [];
@@ -225,112 +256,142 @@
         };
 
         function changeY() {
-            $scope.resetChartButton();
+            // $scope.resetChartButton();
             $scope.updateChart();
         }
 
         function changeChart() {
-            $scope.resetChartButton();
+            // $scope.resetChartButton();
             $scope.updateChart();
         }
 
         function changeOrder() {
-            $scope.resetChartButton();
+            // $scope.resetChartButton();
             $scope.updateChart();
         }
 
-        function resetChartButton() {
-            var chartType = document.getElementById('chartType0').value;
-            if (chartType == 'Bar Chart') {
-                $("#sortSelect0").show();
-                $("#label_sortSelect0").show();
-            } else {
-                $("#sortSelect0").hide();
-                $("#label_sortSelect0").hide();
-            }
-        }
+        // function resetChartButton() {
+        //     var chartType = document.getElementById('chartType0').value;
+        //     if (chartType == 'Bar Chart') {
+        //         $("#sortSelect0").show();
+        //         $("#label_sortSelect0").show();
+        //     } else {
+        //         $("#sortSelect0").hide();
+        //         $("#label_sortSelect0").hide();
+        //     }
+        // }
         // };
         // $scope.StockView = {
         function updateChart() {
-            console.log("updaye chart");
             var chartType = document.getElementById('chartType0').value;
-            console.log(chartType);
             console.log("chartType");
             if (chartType == "Bar Chart") {
                 updateBarChart();
             } else if (chartType == "Line Chart") {
                 updateLineChart();
                 // console.log(updateLineChart);
+            } else if (chartType == "Box Chart") {
+                updateBoxChart();
             }
         }
 
         function updateBarChart() {
-            console.log("updateBarChart");
+            // var sort = document.getElementById('sortSelect0').value;
+            // var sortType = 0;
+            // if (sort == 'Descending Order') {
+            //     sortType = 'desc';
+            // } else {
+            //     sortType = 'asc';
+            // }
+            // var sortValue = false;
+            // if (sort != 'Original Order') {
+            //     sortValue = "price";
+            // } else {
+            //     sortValue = "timestamp";
+            // }
+            // console.log(visualization);
+            if (typeof visualization !== "undefined") {
+                var svg = document.getElementById("StockView");
+                var svgParent = svg.parentNode;
+                svgParent.removeChild(svg);
+                svg = document.createElement("StockView"); // Create a <li> node
+                svg.setAttribute("id", "StockView");
+                svgParent.appendChild(svg);
+            }
+                        console.log($scope.history_price);
+                //         .order({
+                //     sort: sortType,
+                //     value: sortValue
+                // })
 
-            if (document.getElementById('yAxisSelect0').value.indexOf("Price") != -1) {
-                yAxis = "high";
-            } else {
-                yAxis = "price";
-            }
-            var sort = document.getElementById('sortSelect0').value;
-            var sortType = 0;
-            if (sort == 'Descending Order') {
-                sortType = 'desc';
-            } else {
-                sortType = 'asc';
-            }
-            var sortValue = false;
-            if (sort != 'Original Order') {
-                sortValue = "price";
-            } else {
-                sortValue = "timestamp";
-            }
-            xAxis = Date.parse("timestamp")
-            console.log(xAxis);
-            var visualization = d3plus.viz()
+            visualization = d3plus.viz()
                 .container("#StockView")
                 .data($scope.history_price)
                 .type("bar")
-                .id("name")
-                .x(xAxis)
-                .y(yAxis)
-                .text("name")
-                .order({
-                    sort: sortType,
-                    value: sortValue
-                })
-                .tooltip(["timestamp", "price", ])
-                // .time("timestamp")
-                .draw();
+                .id("index") // key for which our data is unique on
+                .y("high") // key to use for y-axis
+                .x({
+                    value: "timestamp",
+                    label: "Date"
+                }) //// key to use for x-axis
+                .time({ "value": "timestamp" })
+                .tooltip(["high", "low", "open", "close",  "timestamp","price"])
+                .draw()
         }
 
 
 
         function updateLineChart() {
-            console.log("updateLineChart");
-            console.log("timestamp");
-            xAxis = Date.parse("timestamp");
-            console.log(xAxis);
 
-            if (document.getElementById('yAxisSelect0').value.indexOf("Price") != -1) {
-                yAxis = "high";
-            } else {
-                yAxis = "price";
+            if (typeof visualization !== "undefined") {
+                var svg = document.getElementById("StockView");
+                var svgParent = svg.parentNode;
+                svgParent.removeChild(svg);
+                svg = document.createElement("StockView"); // Create a <li> node
+                svg.setAttribute("id", "StockView");
+                svgParent.appendChild(svg);
             }
-            var visualization = d3plus.viz()
+            visualization = d3plus.viz()
                 .container("#StockView")
                 .data($scope.history_price)
-                .type("line")
-                .id("symbol")
-                .x(xAxis)
-                .y(yAxis)
-                .text("name")
-                .tooltip(["timestamp", "price"])
-                // .time("timestamp")
-                .draw();
+                .type("line") // visualization type
+                .id("symbol") // key for which our data is unique on
+                .y("high") // key to use for y-axis
+                .x("timestamp") // key to use for x-axis
+                .time({ "value": "timestamp" })
+                .tooltip(["high", "low", "open", "close", "price", "timestamp"])
+                .draw()
         }
 
-        // };
+        function updateBoxChart() {
+            if (typeof visualization !== "undefined") {
+                var svg = document.getElementById("StockView");
+                var svgParent = svg.parentNode;
+                svgParent.removeChild(svg);
+                svg = document.createElement("StockView"); // Create a <li> node
+                svg.setAttribute("id", "StockView");
+                svgParent.appendChild(svg);
+            }
+
+            visualization = d3plus.viz()
+                .container("#StockView")
+                .data($scope.history_price)
+                .type("box") // visualization type
+                .id("symbol") // key for which our data is unique on
+                .y("high") // key to use for y-axis
+                .x({
+                    "value": "index",
+                    "label": "Date"
+                }) // key to use for x-axis
+                .tooltip(["high", "low", "open", "close", "price", "timestamp"])
+                .time({ "value": "timestamp" })
+                .ui([{
+                    "label": "Visualization Type",
+                    "method": "type",
+                    "value": "box"
+                }])
+                .draw()
+        }
 
     }]);
 

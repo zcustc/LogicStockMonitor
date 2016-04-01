@@ -13,7 +13,7 @@
         <div class="wrapper row1">
             <header id="header" class="clear">
                 <div id="hgroup">
-                    <h1><a href="#">Stock Monitor</a></h1>
+                    <h1>Stock Monitor</a></h1>
                     <p/>
                     <h2>Mia Jia</h2>
                     <p>This project is based on <a href="http://financequotes-api.com/">Yahoo Finance API</a>, Java, html5, css3, d3.js, jQuery.</p>
@@ -74,59 +74,50 @@
                         </table>
                     </div>
                     <!-- row -->
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-2">
-
                         </div>
-                        <div class="col-md-8">
+                         <div class="col-md-8">
                             <h2>History Price </h2>
                             <div ng-model="history_price">
-                                <!-- <div ng-show="!isRealTime" ng-model="history_price"> -->
-                                <!-- {{history_price}} -->
                                 <li ng-repeat="stock_price in history_price|limitTo:50"><span>Symbol: {{ stock_price.symbol }}</span><span> </span><span>Price: {{ stock_price.price }}</span> <span> Time: {{ stock_price.timestamp }}</span> </li>
                             </div>
-                        </div>
+                        </div> 
                         <div class="col-md-2">
-
                         </div>
-                        <!-- d3 table -->
-                        <!-- <div class="col-md-8">
-                            <div class="wrapper row2">
-                                <div id="container" class="clear">
-                                    <div>
-                                        <h2>Stock Monitor</h2>
-                                        <label for="yAxisSelect0">Select y axis</label>
-                                        <select name="avgNumSelect" id="yAxisSelect0" onchange="changeY()">
-                                            <option selected="selected">Price</option>
-                                            <option>High</option>
-                                        </select>
-                                        <label for="chartType0">Select Chart Type</label>
-                                        <select name="chartTypeSelect" id="chartType0" onchange="changeChart()">
-                                            <option class="lineChart" >Line Chart</option>
-                                            <option class="barChart" selected="selected">Bar Chart</option>
-                                        </select>
-                                        <label for="sortSelect0" id="label_sortSelect0">Select Order</label>
-                                        <select name="sortSelect" id="sortSelect0" onchange="changeOrder()">
-                                            <option class="origin" selected="selected">Original Order</option>
-                                            <option class="asc">Ascending Order</option>
-                                            <option class="desc">Descending Order</option>
-                                        </select>
-                                        <br/>
-                                        <br/>
-                                        <svg id="StockView" width="1000" height="400">
-                                        </svg>
-                                    </div>
-                                    <br/>
-                                    <br/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>  -->
-                        <!-- end: row -->
+                    </div> -->
+                    <!-- d3 table -->
+                    <div id="container" class="clear">                        
+                            <h2>Stock Monitor</h2>
+                            <label for="yAxisSelect0">Select y axis</label>
+                            <select name="avgNumSelect" id="yAxisSelect0" onchange="changeY()">
+                                <option selected="selected">High</option>
+                                <option>Low</option>
+                                <option>Close</option>
+                                <option>Price</option>
+                            </select>
+                            <label for="chartType0">Select Chart Type</label>
+                            <select name="chartTypeSelect" id="chartType0" onchange="changeChart()">
+                                <option class="lineChart">Line Chart</option>
+                                <option class="barChart" selected="selected">Bar Chart</option>
+                                <option class="boxChart" >Box Chart</option>
+                            </select>
+                            <!-- <label for="sortSelect0" id="label_sortSelect0">Select Order</label>
+                            <select name="sortSelect" id="sortSelect0" onchange="changeOrder()">
+                                <option class="origin" selected="selected">Original Order</option>
+                                <option class="asc">Ascending Order</option>
+                                <option class="desc">Descending Order</option>
+                            </select> -->
+                            </br>
+                            <br/> 
+                            <!-- </div>-->
+                    </div>
+                    <div id="StockView" width="500" height="1000" ></div>
+                    <!-- end: row -->
                 </article>
             </ul>
-            </div>
-            <!-- content -->
+        </div>
+        <!-- content -->
 </body>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>

@@ -140,7 +140,7 @@ public class StockDaoJdbcImpl implements StockDao {
 			ps.setString(1, symbol);
 			rs = ps.executeQuery();
 			//			while(rs.next()){
-			for(int i = 0; i < 1000 && rs.next(); i++) {
+			for(int i = 0; i < 30 && rs.next(); i++) {
 				sp = new StockPrice();
 				mappingStockPrice(rs, sp);
 				dailyPriceList.add(sp);
@@ -164,8 +164,7 @@ public class StockDaoJdbcImpl implements StockDao {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, symbol);
 			rs = ps.executeQuery();
-			for(int i = 0; i < 1000 && rs.next(); i++) {
-
+			for(int i = 0; i < 52 && rs.next(); i++) {
 				sp = new StockPrice();
 				mappingStockPrice(rs,sp);
 				weeklyPriceList.add(sp);
