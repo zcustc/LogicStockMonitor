@@ -28,7 +28,6 @@ public class YahooRealtimeData extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int queryIdx = request.getQueryString().indexOf("=");
 		String queryParameter = request.getQueryString().substring(queryIdx+1);
-				
 		Stock s = YahooFinance.get(queryParameter);
 		StockPrice ms = new StockPrice();
 		ms.setSymbol(s.getSymbol());

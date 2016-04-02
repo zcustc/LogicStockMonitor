@@ -1,3 +1,55 @@
-article{display:block; margin:0; padding:0;}
+article{display:block; margin:10; padding:10;}
 
-q{display:block; padding:0 10px 8px 10px; font-style:italic; line-height:normal;}
+content{display:block; padding:10px 10px 8px 10px; font-style:italic; line-height:normal;}
+
+/* Large desktop */
+@media (min-width: 1200px) { 
+
+}
+ 
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) { ... }
+ 
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) { ... }
+ 
+/* Landscape phones and down */
+@media (max-width: 480px) { ... }
+/*.btn-scroll-top {
+  border: 1px solid #2b2e35;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.02); }
+
+.btn-scroll-top {
+  z-index: 10;
+  bottom: 35px;
+  right: 40px;
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  display: none;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid #d2d2d2;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.02);
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out; }
+  .btn-scroll-top:hover {
+    background-color: #fff;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24); }
+  .btn-scroll-top .icon {
+    color: #c8c8c8;
+    color: rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 38px; }
+
+@media (max-width: 1180px) {
+  .btn-scroll-top {
+    right: 15px;
+    bottom: 15px; } }*/

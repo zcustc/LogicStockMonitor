@@ -19,26 +19,27 @@
 
         init();
 
-
+        //set update frequency
         function init() {
-            setInterval(updatePrice, 10000);
+            setInterval(updatePrice, 5000);
         }
 
         // update stock price in stock table page
         function updatePrice() {
-
             angular.forEach($scope.stockArr, function(item, index) {
-
+                console.log("update price");
                 getPriceBySymbol(item.symbol).then(function() {
                     item.high = $scope.oneStock.high;
                     item.low = $scope.oneStock.low;
                     item.open = $scope.oneStock.open;
                     item.close = $scope.oneStock.close;
                     item.price = $scope.oneStock.price;
+                    item.volume = $scope.oneStock.volume;
                 });
 
             });
         }
+
 
         // get stock price by stock's symbol froms server
         function getPriceBySymbol(stockSymbol) {
@@ -47,8 +48,9 @@
                 $http.get('YahooRealtimeData', { responseType: 'json', params: { symbol: stockSymbol } }).then(
                     function(res) {
                         angular.merge($scope.oneStock, res.data);
+                        // console.log("update price to front");
+                        // console.log($scope.stockArr);
                         deferred.resolve();
-
                     },
                     function(err) {
                         console.log("Fetch price failure");
@@ -68,7 +70,6 @@
                     function(res) {
                         angular.merge($scope.oneStock, res.data);
                         deferred.resolve();
-
                     },
                     function(err) {
                         deferred.reject();
@@ -101,7 +102,7 @@
         }
 
 
-
+        //check if the stock already subscribed 
         function objectWithPropExists(array1, propName, propVal) {
             for (var i = 0, k = array1.length; i < k; i++) {
                 if (array1[i][propName] === propVal) return true;
@@ -113,7 +114,6 @@
         // add new stock in stock table page
         function addStock(stockSymbol) {
             if (!(objectWithPropExists($scope.stockArr, 'symbol', stockSymbol))) {
-
                 addStockDB(stockSymbol).then(function() {
                     getInfoBySymbol(stockSymbol).then(function() {
                         getPriceBySymbol(stockSymbol).then(function() {
@@ -128,6 +128,7 @@
             }
         }
 
+        //remove one stock from page
         function removeByKey(array, params) {
             array.some(function(item, index) {
                 if (array[index][params.key] === params.value) {
@@ -140,16 +141,15 @@
             return array;
         }
 
+        //delete one stock form db
         function deleteStock(stockSymbol) {
-            console.log(" deleteStock.");
-            // console.log($scope.stockArr);
+            removeByKey($scope.stockArr, {
+                key: 'symbol',
+                value: stockSymbol
+            });
             $http.get('delOneStock', { params: { symbol: stockSymbol } }).then(
                 function(res) {
-
-                    removeByKey($scope.stockArr, {
-                        key: 'symbol',
-                        value: stockSymbol
-                    });
+                    console.log("delete stock from db success!");
                 },
                 function(err) {
                     console.log("Returned info error.");
@@ -157,24 +157,6 @@
             );
         }
 
-
-        var intervalTimer;
-
-
-        $scope.getOneRealtimeCompanyStock = function(symbol) {
-            intervalTimer = setInterval(sendYahooRequest(symbol), 10000);
-        };
-        var sendYahooRequest = function(symbol) {
-
-            $http.get('YahooRealtimeData', { responseType: 'json', params: { symbol: symbol } }).then(
-                function(res) {
-                    $scope.yahoo_company_price = res.data;
-                },
-                function(res) {
-                    console.log("Returned info error.");
-                }
-            );
-        };
 
         $scope.getPeriodCompanyStockInfo = function(symbolTimeRange) {
             $http.get('GetOneHistoryPrice', { responseType: 'json', params: { symbol: symbolTimeRange } }).then(
@@ -196,10 +178,6 @@
             );
         };
 
-        function changeY() {
-            $scope.updateChart();
-        }
-
 
         function updateChart() {
             if (typeof visualization !== "undefined") {
@@ -210,26 +188,57 @@
                 svg.setAttribute("id", "StockView");
                 svgParent.appendChild(svg);
             }
+
+
             visualization = d3plus.viz()
                 .container("#StockView")
                 .data($scope.history_price)
                 .type("bar")
-                .id("index") // key for which our data is unique on
+                .margin("10px 20px")
+                .messages("Loading Data...")
+                .id(["index", "symbol"]) // key for which our data is unique on
                 .y("high") // key to use for y-axis
                 .x({
                     value: "timestamp",
                     label: "Date"
                 }) //// key to use for x-axis
-                .time({ "value": "timestamp" })
+                .time({ "format": "%Y-%m-%d", "value": "timestamp" })
                 .tooltip(["high", "low", "open", "close", "timestamp", "price"])
                 .ui([{
                     label: "Visualization Type",
                     method: "type",
                     value: ["bar", "scatter", "line"]
                 }])
+                .height(500)
                 .color("high")
-                .draw()
+                .format({
+                    "text": function(text, params) {
+                        if (text === "price") {
+                            return "price";
+                        } else {
+                            return d3plus.string.title(text, params);
+                        }
 
+                    },
+                    "number": function(number, params) {
+                        var formatted = d3plus.number.format(number, params);
+                        if (params.key === "price" || params.key === "high" || params.key === "low" || params.key === "open" || params.key === "close") {
+                            return "$" + formatted + " USD";
+                        } else {
+                            return formatted;
+                        }
+
+                    }
+                })
+                .title("Logic Stock Monitor")
+                .title({
+                    "sub": "realtime stock monitor system"
+                })
+                .footer({
+                    "link": "https://www.linkedin.com/in/miajia",
+                    "value": "Click here to find me"
+                })
+                .draw()
         }
 
     }]);
