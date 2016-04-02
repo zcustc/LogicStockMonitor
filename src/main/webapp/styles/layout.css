@@ -1,20 +1,21 @@
-article{display:block; margin:10; padding:10;}
+/*article{display:block; margin:10; padding:10;}
+*/
 
-content{display:block; padding:10px 10px 8px 10px; font-style:italic; line-height:normal;}
-
-/* Large desktop */
-@media (min-width: 1200px) { 
-
+#content{ margin: auto;
+    width: 90%;
+    padding: 10px;
+    margin: 80px 80px 80px 80px;
 }
- 
-/* Portrait tablet to landscape and desktop */
-@media (min-width: 768px) and (max-width: 979px) { ... }
- 
-/* Landscape phone to portrait tablet */
-@media (max-width: 767px) { ... }
- 
-/* Landscape phones and down */
-@media (max-width: 480px) { ... }
+
+.table table-hover {
+    margin-top: 10px;
+}
+
+.alert {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 /*.btn-scroll-top {
   border: 1px solid #2b2e35;
   border: 1px solid rgba(0, 0, 0, 0.2);

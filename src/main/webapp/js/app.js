@@ -12,6 +12,7 @@
         $scope.addStock = addStock;
         $scope.deleteStock = deleteStock;
         $scope.updateChart = updateChart;
+        $scope.alert = false;
 
         var visualization;
 
@@ -114,6 +115,7 @@
         // add new stock in stock table page
         function addStock(stockSymbol) {
             if (!(objectWithPropExists($scope.stockArr, 'symbol', stockSymbol))) {
+                 $scope.alert = false;
                 addStockDB(stockSymbol).then(function() {
                     getInfoBySymbol(stockSymbol).then(function() {
                         getPriceBySymbol(stockSymbol).then(function() {
@@ -124,7 +126,7 @@
                 });
 
             } else {
-                window.alert("You aleary subscribed to this company, how about try something else :P");
+                $scope.alert = true;
             }
         }
 
