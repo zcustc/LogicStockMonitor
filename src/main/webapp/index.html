@@ -20,26 +20,14 @@
                 <div class="jumbotron">
                     <header id="header" class="clear">
                         <div id="hgroup">
-                            <h1>Stock Monitor</a></h1>
-                            <p/>
+                            <h1>Stock Monitor</h1>
                             <h4>Mia Jia</h4>
                             <p>This project is based on <a href="http://financequotes-api.com/">Yahoo Finance API</a>, Java, Html, Css, D3JS, JQuery and AngularJS.</p>
                             <br/>
                         </div>
                     </header>
                 </div>
-                <!-- <
-header id="header" class="clear">
-                    <div id="hgroup">
-                        <h1>Stock Monitor</a></h1>
-                        <p/>
-                        <h4>Mia Jia</h4>
-                        <p>This project is based on <a href="http://financequotes-api.com/">Yahoo Finance API</a>, Java, html5, css3, d3.js, jQuery.</p>
-                        <br/>
-                    </div>
-                </header> -->
                 <div class="table-dataviz">
-                   <!--  <form class="navbar-form navbar-left" method="get" ng-submit="$event.preventDefault()"> -->
                     <form class="navbar-form navbar-left">
                         <div class="form-group">
                             <input type="text" class="form-control" ng-model="stockSymbol" placeholder="Type a stock symbol...">
@@ -78,26 +66,11 @@ header id="header" class="clear">
                                     <td>{{stock.volume}}</td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="...">
+                                            <button type="button" class="btn btn-default" ng-click="getPeriodCompanyStockInfo('A_Week_'+stock.symbol)">Week</button>
                                             <button type="button" class="btn btn-default" ng-click="getPeriodCompanyStockInfo('A_Month_'+stock.symbol)">Month</button>
                                             <button type="button" class="btn btn-default" ng-click="getPeriodCompanyStockInfo('A_Year_'+stock.symbol)">Year</button>
                                             <button type="button" class="btn btn-default" ng-click="deleteStock(stock.symbol)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
                                         </div>
-                                        <!-- <div class="list-group">
-                                            <button type="button" class="list-group-item" ng-click="getPeriodCompanyStockInfo('A_Year_'+stock.symbol)">Year History</button>
-                    
-                                            <button type="button" class="list-group-item" ng-click="getPeriodCompanyStockInfo('A_Month_'+stock.symbol)">Month History</button>
-                                            <button type="button" class="list-group-item">Porta ac consectetur ac</button>
-                                            <button type="button" class="list-group-item" ng-click="deleteStock(stock.symbol)">Delete</button>
-                                        </div> -->
-                                        <!-- <form>
-                                            <button ng-click="getPeriodCompanyStockInfo('A_Year_'+stock.symbol)">Year History</button>
-                                        </form>
-                                        <form>
-                                            <button ng-click="getPeriodCompanyStockInfo('A_Month_'+stock.symbol)">Month History</button>
-                                        </form>
-                                        <form>
-                                            <button ng-click="deleteStock(stock.symbol)">Delete</button>
-                                        </form> -->
                                     </td>
                                 </tr>
                             </tbody>

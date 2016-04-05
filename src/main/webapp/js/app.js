@@ -28,7 +28,7 @@
         // update stock price in stock table page
         function updatePrice() {
             angular.forEach($scope.stockArr, function(item, index) {
-                console.log("update price");
+                // console.log("update price");
                 getPriceBySymbol(item.symbol).then(function() {
                     item.high = $scope.oneStock.high;
                     item.low = $scope.oneStock.low;
@@ -121,6 +121,8 @@
                         getPriceBySymbol(stockSymbol).then(function() {
                             $scope.stockArr.push($scope.oneStock);
                             $scope.oneStock = {};
+                            $scope.getPeriodCompanyStockInfo('A_Week_'+ stockSymbol);
+                            console.log( $scope.stockArr);
                         });
                     });
                 });
@@ -168,9 +170,9 @@
                         return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
                     });
                     angular.forEach($scope.history_price, function(item, index) {
-                        item.index = index;
-                        item.index = item.index.toString();
+                        item.index = index.toString();
                     });
+                    console.log($scope.history_price);
                     $scope.updateChart();
                 },
                 function(err) {

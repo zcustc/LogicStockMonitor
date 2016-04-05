@@ -23,7 +23,7 @@ public interface StockDao {
 	public StockInfo getOneInfoFromDBDAO(String symbol);
 	//list all the symbols that exist database.
 	public List<StockInfo> getAllInfoFromDBDAO();  
-	public List<StockInfo> getSelectInfoFromDBDAO(List<String> symbolList);  
+//	public List<StockInfo> getSelectInfoFromDBDAO(List<String> symbolList);  
 
 	
 	//delete an stock info/price existing from relative table

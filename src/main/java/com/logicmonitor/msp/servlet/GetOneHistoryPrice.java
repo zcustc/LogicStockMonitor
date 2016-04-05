@@ -37,7 +37,10 @@ public class GetOneHistoryPrice extends HttpServlet {
 				stockPriceList = dao.getWeeklyData(querys[2]);
 			} else if(querys[1].equals("Month")) {
 				stockPriceList = dao.getDailyData(querys[2]);
-			} 
+			} else if(querys[1].equals("Week")) {
+				stockPriceList = dao.getRealTimeData(querys[2]);
+//				System.out.println(stockPriceList);
+			}
 		}
 		Type listType = new TypeToken<List<StockPrice>>(){}.getType();
 		response.getWriter().write(new Gson().toJson(stockPriceList, listType));

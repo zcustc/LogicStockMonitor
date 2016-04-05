@@ -23,18 +23,28 @@ public class DataFetcher {
 	// get one stock's static information from YahooAPI 
 	public void getStockInfoFromYahoo(String symbol, StockInfo stockInfo) { 
 		if(StringUtils.isNullOrEmpty(symbol)) return;
-		yahoofinance.Stock yStock = YahooFinance.get(symbol);
+		Stock yStock = null;
+		try {
+			yStock = YahooFinance.get(symbol);
+		} catch (YahooFetchException e) {
+			e.printStackTrace();
+		}
 		stockInfo.setSymbol(yStock.getSymbol());
 		stockInfo.setName( yStock.getName());
 		stockInfo.setCurrency(yStock.getCurrency());
 		stockInfo.setStockExchange(yStock.getStockExchange());
 	}
-
-
+	
 	// get one stock's month long daily stock price information from YahooAPI 
 	public void getMonthLongDailyDataFromYahoo(String symbol, List<StockPrice> myStockList) {  
 		if(symbol == null) return;
-		Stock s  = YahooFinance.get(symbol);
+		Stock s = null;
+		try {
+			s  = YahooFinance.get(symbol);
+		} catch (YahooFetchException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Calendar from = Calendar.getInstance();
 		Calendar to = Calendar.getInstance();
 		from.add(Calendar.MONTH, -1); // from 1 years ago
@@ -59,7 +69,13 @@ public class DataFetcher {
 	// get one stock's year long weekly stock price information from YahooAPI 
 	public void getYearLongWeeklyDataFromYahoo(String symbol, List<StockPrice> myStockList) {  
 		if(symbol == null) return;
-		Stock s  = YahooFinance.get(symbol);
+		Stock s = null;
+		try {
+			s  = YahooFinance.get(symbol);
+		} catch (YahooFetchException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Calendar from = Calendar.getInstance();
 		Calendar to = Calendar.getInstance();
 		from.add(Calendar.YEAR, -1); // from 1 years ago
@@ -84,7 +100,12 @@ public class DataFetcher {
 	public void updateWeeklyDataFromYahoo(List<String> symbols, List<StockPrice> myStockList) {
 		if(symbols.size() == 0) return;
 		String[] symbolsArr = symbols.toArray(new String[symbols.size()]);
-		Map<String, Stock> yStocks  = YahooFinance.get(symbolsArr);
+		Map<String, Stock> yStocks = null;
+		try {
+			yStocks  = YahooFinance.get(symbolsArr);
+		} catch (YahooFetchException e) {
+			e.printStackTrace();
+		}
 		Calendar from = Calendar.getInstance();
 		Calendar to = Calendar.getInstance();
 		from.add(Calendar.DATE, -7); // from 1 week ago
@@ -112,7 +133,13 @@ public class DataFetcher {
 	public void updateDailyDataFromYahoo(List<String> symbols, List<StockPrice> myStockList) {
 		if(symbols.size() == 0) return;
 		String[] symbolsArr = symbols.toArray(new String[symbols.size()]);
-		Map<String, Stock> yStocks  = YahooFinance.get(symbolsArr);
+		Map<String, Stock> yStocks = null;
+		try {
+			yStocks  = YahooFinance.get(symbolsArr);
+		} catch (YahooFetchException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Calendar from = Calendar.getInstance();
 		Calendar to = Calendar.getInstance();
 		from.add(Calendar.DATE, -1); // from 1 day ago
@@ -140,9 +167,13 @@ public class DataFetcher {
 	// get all stocks' real time stock price information from YahooAPI 
 	public void getRealTimeDataFromYahoo(List<String> symbols, List<StockPrice> myStockList ) {  
 		if(symbols.size() == 0) return;
-		String[] symbolsArr = symbols.toArray(new String[symbols.size()]);
-
-		Map<String, Stock> yStocks = YahooFinance.get(symbolsArr);
+		Map<String, Stock> yStocks = null;
+		try {
+			String[] symbolsArr = symbols.toArray(new String[symbols.size()]);
+			yStocks = YahooFinance.get(symbolsArr);
+		} catch (YahooFetchException e) {
+			e.printStackTrace();
+		}
 		for(Stock s: yStocks.values()) {
 			StockPrice ms = new StockPrice();
 			StockQuote sq = s.getQuote();
@@ -164,7 +195,13 @@ public class DataFetcher {
 	// get one stock's real time stock price information from YahooAPI 
 	public void getOneRealTimeDataFromYahoo(String symbol, StockPrice stockPrice) {  
 		if(StringUtils.isNullOrEmpty(symbol)) return;
-		Stock s = YahooFinance.get(symbol);
+		Stock s = null;
+		try {
+			s = YahooFinance.get(symbol);
+		} catch (YahooFetchException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		StockQuote sq = s.getQuote();
 		stockPrice.setSymbol(s.getSymbol());
 		stockPrice.setPrice(sq.getPrice());

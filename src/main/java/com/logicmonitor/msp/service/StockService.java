@@ -25,18 +25,6 @@ public class StockService {
 		FirstRun = true;
 	}
 	
-	
-	//update stock price regularly 
-	public void fetchAddtoDB(List<String> symbolList){
-		RunnableFetchAddRealTime T1 = new RunnableFetchAddRealTime(symbolList,fetchData, dao);
-		T1.start();
-		RunnableFetchAddDaily T2 = new RunnableFetchAddDaily(symbolList,fetchData, dao);
-		T2.start();
-		RunnableFetchAddWeekly T3 = new RunnableFetchAddWeekly(symbolList,fetchData, dao);
-		T3.start();
-	}
-	
-	
 	//add new stock to monitor
 	public void fetchAddNewtoDB(String symbol){
 		strList.add(symbol);
@@ -51,8 +39,19 @@ public class StockService {
 			this.fetchAddtoDB(strList);
 		}
 	}
-
-
+	
+	
+	//update stock price regularly 
+	private void fetchAddtoDB(List<String> symbolList){
+		RunnableFetchAddRealTime T1 = new RunnableFetchAddRealTime(symbolList,fetchData, dao);
+		T1.start();
+		RunnableFetchAddDaily T2 = new RunnableFetchAddDaily(symbolList,fetchData, dao);
+		T2.start();
+		RunnableFetchAddWeekly T3 = new RunnableFetchAddWeekly(symbolList,fetchData, dao);
+		T3.start();
+	}
+	
+	
 	class RunnableFetchAddOneStockYearLongWeekly implements Runnable {
 		private Thread t;
 		private String threadName;

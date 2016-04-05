@@ -7,13 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 import com.logicmonitor.msp.dao.JdbcUtilsSingleton;
 import com.logicmonitor.msp.dao.DaoException;
+import com.logicmonitor.msp.dao.JdbcUtils;
 import com.logicmonitor.msp.dao.StockDao;
 import com.logicmonitor.msp.domain.StockInfo;
 import com.logicmonitor.msp.domain.StockPrice;
@@ -27,9 +26,10 @@ public class StockDaoJdbcImpl implements StockDao {
 	private ResultSet rs = null;
 
 	
-	public synchronized void addStockInfo(StockInfo info){
+	public void addStockInfo(StockInfo info){
 		try {
-			conn = JdbcUtilsSingleton.getInstance().getConnection();
+			conn = JdbcUtils.getConnection();
+//			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			String sql = "insert into stock_info(symbol,stock_name,currency,stock_exchange) values (?,?,?,?) ";
 			ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, info.getSymbol());
@@ -41,14 +41,16 @@ public class StockDaoJdbcImpl implements StockDao {
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		} finally {
-			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
+			JdbcUtils.free(rs, ps, conn);
+//			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 	}
 
 	
-	public synchronized void addRealTimeData(StockPrice realTimeStock) {
+	public  void addRealTimeData(StockPrice realTimeStock) {
 		try {
-			conn = JdbcUtilsSingleton.getInstance().getConnection();
+			conn = JdbcUtils.getConnection();
+//			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			String sql = "insert into realtime_stock_data(symbol,price,high,low,open,close,timestamp,volume) values (?,?,?,?,?,?,?,?) ";
 			ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			mappingPs(ps,realTimeStock);
@@ -57,14 +59,16 @@ public class StockDaoJdbcImpl implements StockDao {
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		} finally {
-			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
+			JdbcUtils.free(rs, ps, conn);
+//			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 	}
 	
 	
-	public synchronized void addDailyData(StockPrice dailyStock){
+	public  void addDailyData(StockPrice dailyStock){
 		try {
-			conn = JdbcUtilsSingleton.getInstance().getConnection();
+			conn = JdbcUtils.getConnection();			
+//			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			String sql = "insert into daily_stock_data(symbol,price,high,low,open,close,timestamp, volume) values (?,?,?,?,?,?,?,?) ";
 			ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			mappingPs(ps,dailyStock);
@@ -73,14 +77,16 @@ public class StockDaoJdbcImpl implements StockDao {
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		} finally {
-			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
+			JdbcUtils.free(rs, ps, conn);
+//			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 	}
 	
 	
-	public synchronized void addWeeklyData(StockPrice weeklyStock){
+	public  void addWeeklyData(StockPrice weeklyStock){
 		try {
-			conn = JdbcUtilsSingleton.getInstance().getConnection();
+			conn = JdbcUtils.getConnection();
+//			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			String sql = "insert into weekly_stock_data(symbol,price,high,low,open,close,timestamp,volume) values (?,?,?,?,?,?,?,?) ";
 			ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			mappingPs(ps,weeklyStock);
@@ -89,7 +95,8 @@ public class StockDaoJdbcImpl implements StockDao {
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		} finally {
-			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
+			JdbcUtils.free(rs, ps, conn);
+//			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 	}
 	
@@ -110,12 +117,13 @@ public class StockDaoJdbcImpl implements StockDao {
 		List<StockPrice> realTimePriceList = new ArrayList<StockPrice>();
 		StockPrice sp = null;
 		try {
-			conn = JdbcUtilsSingleton.getInstance().getConnection();
+			conn = JdbcUtils.getConnection();
+//			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			String sql = "select symbol,price,high,low,open,close,timestamp, volume from realtime_stock_data where symbol=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, symbol);
 			rs = ps.executeQuery();
-			for(int i = 0; i < 1000 && rs.next(); i++) {
+			for(int i = 0; i < 100 && rs.next(); i++) {
 				//			while(rs.next()){
 				sp = new StockPrice();
 				mappingStockPrice(rs, sp);
@@ -124,7 +132,8 @@ public class StockDaoJdbcImpl implements StockDao {
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		} finally {
-			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
+//			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
+			JdbcUtils.free(rs, ps, conn);
 		}
 		return realTimePriceList;
 	}
@@ -134,7 +143,8 @@ public class StockDaoJdbcImpl implements StockDao {
 		List<StockPrice> dailyPriceList = new ArrayList<StockPrice>();
 		StockPrice sp = null;
 		try {
-			conn = JdbcUtilsSingleton.getInstance().getConnection();
+			conn = JdbcUtils.getConnection();
+//			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			String sql = "select symbol,price,high,low,open,close,timestamp,volume from daily_stock_data where symbol=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, symbol);
@@ -148,7 +158,8 @@ public class StockDaoJdbcImpl implements StockDao {
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		} finally {
-			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
+			JdbcUtils.free(rs, ps, conn);
+//			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 		return dailyPriceList;
 
@@ -159,7 +170,11 @@ public class StockDaoJdbcImpl implements StockDao {
 		List<StockPrice> weeklyPriceList = new ArrayList<StockPrice>();
 		StockPrice sp = null;
 		try {
-			conn = JdbcUtilsSingleton.getInstance().getConnection();
+			conn = JdbcUtils.getConnection();
+			System.out.println("get the connection!");
+			System.out.println(conn);
+
+//			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			String sql = "select symbol,price,high,low,open,close,timestamp,volume from weekly_stock_data where symbol=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, symbol);
@@ -172,7 +187,8 @@ public class StockDaoJdbcImpl implements StockDao {
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		} finally {
-			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
+			JdbcUtils.free(rs, ps, conn);
+//			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 		return weeklyPriceList;
 	}
@@ -182,7 +198,8 @@ public class StockDaoJdbcImpl implements StockDao {
 		StockInfo stockInfo = null;
 		List<StockInfo> stockInfoList = new ArrayList<StockInfo>();
 		try {
-			conn = JdbcUtilsSingleton.getInstance().getConnection();
+			conn = JdbcUtils.getConnection();
+//			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			String sql = "select symbol, stock_name,currency,stock_exchange from stock_info where symbol = ?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, symbol);
@@ -196,7 +213,8 @@ public class StockDaoJdbcImpl implements StockDao {
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		} finally {
-			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
+			JdbcUtils.free(rs, ps, conn);
+//			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 		return stockInfoList.get(0);
 	}
@@ -207,7 +225,8 @@ public class StockDaoJdbcImpl implements StockDao {
 		List<StockInfo> stockInfoList = new ArrayList<StockInfo>();
 		String sql = "select symbol,stock_name,currency,stock_exchange from stock_info";
 		try{
-			conn = JdbcUtilsSingleton.getInstance().getConnection();
+			conn = JdbcUtils.getConnection();
+//			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while(rs.next()){
@@ -218,42 +237,44 @@ public class StockDaoJdbcImpl implements StockDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 		}finally{
-			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
+			JdbcUtils.free(rs, ps, conn);
+//			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 		return stockInfoList;
 	}
 	
 	
-	public List<StockInfo> getSelectInfoFromDBDAO(List<String> symbolList) {
-		StockInfo stockInfo = null;
-		Map<String, StockInfo> stockInfoMap = new HashMap<String, StockInfo>();
-		String sql = "select symbol,stock_name,currency,stock_exchange from stock_info";
-		try{
-			conn = JdbcUtilsSingleton.getInstance().getConnection();
-			ps = conn.prepareStatement(sql);
-			rs = ps.executeQuery();
-			while(rs.next()){
-				stockInfo = new StockInfo();
-				mappingStockInfo(rs, stockInfo);
-				stockInfoMap.put(stockInfo.getSymbol(), stockInfo);
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}finally{
-			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
-		}
-		for(String symbol: symbolList) {
-			if(stockInfoMap.containsKey(symbol)) {
-				stockInfo = new StockInfo();
-			}
-		}
-		return new ArrayList<StockInfo>(stockInfoMap.values());
-	}
+//	public List<StockInfo> getSelectInfoFromDBDAO(List<String> symbolList) {
+//		StockInfo stockInfo = null;
+//		Map<String, StockInfo> stockInfoMap = new HashMap<String, StockInfo>();
+//		String sql = "select symbol,stock_name,currency,stock_exchange from stock_info";
+//		try{
+//			conn = JdbcUtilsSingleton.getInstance().getConnection();
+//			ps = conn.prepareStatement(sql);
+//			rs = ps.executeQuery();
+//			while(rs.next()){
+//				stockInfo = new StockInfo();
+//				mappingStockInfo(rs, stockInfo);
+//				stockInfoMap.put(stockInfo.getSymbol(), stockInfo);
+//			}
+//		}catch(SQLException e){
+//			e.printStackTrace();
+//		}finally{
+//			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
+//		}
+//		for(String symbol: symbolList) {
+//			if(stockInfoMap.containsKey(symbol)) {
+//				stockInfo = new StockInfo();
+//			}
+//		}
+//		return new ArrayList<StockInfo>(stockInfoMap.values());
+//	}
 
 	
- 	public synchronized void delRealTimeData(String symbol) {
+ 	public  void delRealTimeData(String symbol) {
 		try {
-			conn = JdbcUtilsSingleton.getInstance().getConnection();
+			conn = JdbcUtils.getConnection();
+//			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			String multiQuerySqlString = "SET SQL_SAFE_UPDATES = 0;";
 			multiQuerySqlString += "delete from realtime_stock_data where symbol='" + symbol + "' AND timestamp < (NOW() - INTERVAL 7 DAY);";
 			multiQuerySqlString += "SET SQL_SAFE_UPDATES = 1;";
@@ -262,14 +283,16 @@ public class StockDaoJdbcImpl implements StockDao {
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		} finally {
-			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
+			JdbcUtils.free(rs, ps, conn);
+//			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 	}
  	
  	
-	public synchronized void delInfolFromDBDAO(String symbol){
+	public  void delInfolFromDBDAO(String symbol){
 		try {
-			conn = JdbcUtilsSingleton.getInstance().getConnection();
+			conn = JdbcUtils.getConnection();
+//			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			String multiQuerySqlString = "SET SQL_SAFE_UPDATES = 0;";
 			multiQuerySqlString += "delete from stock_info where symbol=" + symbol + ";";
 			multiQuerySqlString += "SET SQL_SAFE_UPDATES = 1;";
@@ -278,15 +301,17 @@ public class StockDaoJdbcImpl implements StockDao {
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		} finally {
-			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
+			JdbcUtils.free(rs, ps, conn);
+//			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 
 	}
 
 	
- 	public synchronized void delDailyData(String symbol) {
+ 	public  void delDailyData(String symbol) {
 		try {
-			conn = JdbcUtilsSingleton.getInstance().getConnection();
+			conn = JdbcUtils.getConnection();
+//			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			String multiQuerySqlString = "SET SQL_SAFE_UPDATES = 0;";
 			multiQuerySqlString += "delete from daily_stock_data where symbol='" + symbol + "' AND timestamp < (NOW() - INTERVAL 30 DAY);";
 			multiQuerySqlString += "SET SQL_SAFE_UPDATES = 1;";		
@@ -295,14 +320,16 @@ public class StockDaoJdbcImpl implements StockDao {
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		} finally {
-			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
+			JdbcUtils.free(rs, ps, conn);
+//			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 	}
 
 
- 	public synchronized void delWeeklyData(String symbol) {
+ 	public  void delWeeklyData(String symbol) {
 		try {
-			conn = JdbcUtilsSingleton.getInstance().getConnection();
+			conn = JdbcUtils.getConnection();
+//			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			String multiQuerySqlString = "SET SQL_SAFE_UPDATES = 0;";
 			multiQuerySqlString += "delete from weekly_stock_data where symbol='" + symbol + "' AND timestamp < (NOW() - INTERVAL 52 WEEK);";
 			multiQuerySqlString += "SET SQL_SAFE_UPDATES = 1;";		
@@ -311,14 +338,16 @@ public class StockDaoJdbcImpl implements StockDao {
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		} finally {
-			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
+			JdbcUtils.free(rs, ps, conn);
+//			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 	}
 
  	
-	public synchronized void delAllFromDBDAO(String symbol) {
+	public  void delAllFromDBDAO(String symbol) {
 		try {
-			conn = JdbcUtilsSingleton.getInstance().getConnection();
+			conn = JdbcUtils.getConnection();
+//			conn = JdbcUtilsSingleton.getInstance().getConnection();
 			String multiQuerySqlString = "SET SQL_SAFE_UPDATES = 0;";
 			multiQuerySqlString += "delete from stock_info where symbol ='" + symbol + "';";
 			multiQuerySqlString += "delete from realtime_stock_data where symbol='" + symbol + "';";
@@ -330,7 +359,8 @@ public class StockDaoJdbcImpl implements StockDao {
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		} finally {
-			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
+			JdbcUtils.free(rs, ps, conn);
+//			JdbcUtilsSingleton.getInstance().free(rs, ps, conn);
 		}
 
 	}
@@ -353,6 +383,16 @@ public class StockDaoJdbcImpl implements StockDao {
 		stockInfo.setName(rs.getString("stock_name"));
 		stockInfo.setCurrency(rs.getString("currency"));
 		stockInfo.setStockExchange(rs.getString("stock_exchange"));
+	}
+	public static void main(String[] argus) {
+		StockDaoJdbcImpl sd = new StockDaoJdbcImpl();
+
+//		long start = System.currentTimeMillis();
+		for (int i = 0; i < 100; i++){
+			sd.getRealTimeData("GOOG");
+		}
+//		long end = System.currentTimeMillis();
+//				System.out.println("old version"+ (end - start));
 	}
 
 }

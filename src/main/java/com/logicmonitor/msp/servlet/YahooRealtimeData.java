@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.logicmonitor.msp.YahooFetcher.YahooFetchException;
 import com.logicmonitor.msp.domain.StockPrice;
 
 import yahoofinance.Stock;
@@ -28,7 +29,14 @@ public class YahooRealtimeData extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int queryIdx = request.getQueryString().indexOf("=");
 		String queryParameter = request.getQueryString().substring(queryIdx+1);
-		Stock s = YahooFinance.get(queryParameter);
+		Stock s = null;
+		System.out.println(queryParameter);
+		try {
+			s = YahooFinance.get(queryParameter);
+		} catch (YahooFetchException e) {
+			e.getMessage();
+			e.printStackTrace();
+		}
 		StockPrice ms = new StockPrice();
 		ms.setSymbol(s.getSymbol());
 		StockQuote sq = s.getQuote();
