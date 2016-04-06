@@ -18,14 +18,14 @@ public class MyDataSource implements DataSource{
 	private static int maxCount = 10;
 	int currentCount = 0;
 
-	LinkedList<Connection> connectionsPool = new LinkedList<Connection>();
-//	LinkedList<MyConnection> connectionsPool = new LinkedList<MyConnection>();
+//	LinkedList<Connection> connectionsPool = new LinkedList<Connection>();
+	LinkedList<MyConnection> connectionsPool = new LinkedList<MyConnection>();
 
 	public MyDataSource() {
 		try {
 			for (int i = 0; i < initCount; i++) {
-				this.connectionsPool.addLast(this.createConnection());
-//				this.connectionsPool.addLast((MyConnection)this.createConnection());
+//				this.connectionsPool.addLast(this.createConnection());
+				this.connectionsPool.addLast((MyConnection)this.createConnection());
 				this.currentCount++;
 			}
 		} catch (SQLException e) {
@@ -33,9 +33,9 @@ public class MyDataSource implements DataSource{
 		}
 	}
 
-	public Connection getConnection() throws SQLException {
+	public MyConnection getConnection() throws SQLException {
 		synchronized (connectionsPool) {
-			System.out.println("current connection count is"+ currentCount);
+//			System.out.println("current connection count is"+ currentCount);
 			if (this.connectionsPool.size() > 0) {
 				return this.connectionsPool.removeFirst();
 			}
@@ -47,21 +47,19 @@ public class MyDataSource implements DataSource{
 		}
 	}
 
-	public void free(Connection conn) {
+//	public void free(Connection conn) {
 //		this.connectionsPool.addLast((MyConnection)conn);
-		this.connectionsPool.addLast(conn);
-	}
+//	}
 
-	private Connection createConnection() throws SQLException {
+	private MyConnection createConnection() throws SQLException {
 		Connection realConn = DriverManager.getConnection(url, user, password);
-//		MyConnection myConnection = new MyConnection(realConn, this);
-//		return myConnection;
-		return realConn;
+		MyConnection myConnection = new MyConnection(realConn, this);
+		return myConnection;
+//		return realConn;
 	}
 
 	public Connection getConnection(String username, String password)
 			throws SQLException {
-		System.out.println("should not be here");
 		return null;
 	}
 

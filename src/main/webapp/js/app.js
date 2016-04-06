@@ -122,7 +122,7 @@
                             $scope.stockArr.push($scope.oneStock);
                             $scope.oneStock = {};
                             $scope.getPeriodCompanyStockInfo('A_Week_'+ stockSymbol);
-                            console.log( $scope.stockArr);
+                            // console.log($scope.stockArr);
                         });
                     });
                 });
@@ -165,6 +165,8 @@
         $scope.getPeriodCompanyStockInfo = function(symbolTimeRange) {
             $http.get('GetOneHistoryPrice', { responseType: 'json', params: { symbol: symbolTimeRange } }).then(
                 function(res) {
+                    console.log("Returned info success.");
+                    console.log($scope.history_price);
                     $scope.history_price = res.data;
                     $scope.history_price.sort(function(a, b) {
                         return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();

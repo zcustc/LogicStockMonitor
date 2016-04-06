@@ -15,7 +15,7 @@ public class testjdbc {
 	 */
 	public static void main(String[] args) throws Exception {
 		for (int i = 0; i < 10; i++) {
-			Connection conn = JdbcUtils.getConnection();
+			MyConnection conn = JdbcUtils.getConnection();
 			System.out.println(conn.getClass().getName());
 			JdbcUtils.free(null, null, conn);
 		}

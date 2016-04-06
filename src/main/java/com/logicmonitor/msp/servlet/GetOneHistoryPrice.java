@@ -34,10 +34,13 @@ public class GetOneHistoryPrice extends HttpServlet {
 		StockDao dao = new StockDaoJdbcImpl();
 		if(querys.length > 0) {
 			if(querys[1].equals("Year")) {
+//				System.out.println("ASK FOR YEARLY DATA");
 				stockPriceList = dao.getWeeklyData(querys[2]);
+//				System.out.println(stockPriceList);
 			} else if(querys[1].equals("Month")) {
 				stockPriceList = dao.getDailyData(querys[2]);
 			} else if(querys[1].equals("Week")) {
+//				System.out.println("ASK FOR realtime DATA");
 				stockPriceList = dao.getRealTimeData(querys[2]);
 //				System.out.println(stockPriceList);
 			}

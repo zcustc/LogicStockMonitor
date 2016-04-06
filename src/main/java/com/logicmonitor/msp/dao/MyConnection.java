@@ -24,7 +24,7 @@ import java.util.concurrent.Executor;
 public class MyConnection implements Connection {
 	private Connection realConnection;
 	private MyDataSource dataSource;
-	private int maxUseCount = 100;
+	private int maxUseCount = Integer.MAX_VALUE;
 	private int currentUserCount = 0;
 
 	MyConnection(Connection connection, MyDataSource dataSource) {

@@ -11,6 +11,7 @@ import java.util.List;
 
 
 import com.logicmonitor.msp.dao.JdbcUtilsSingleton;
+import com.logicmonitor.msp.dao.MyConnection;
 import com.logicmonitor.msp.dao.DaoException;
 import com.logicmonitor.msp.dao.JdbcUtils;
 import com.logicmonitor.msp.dao.StockDao;
@@ -20,7 +21,7 @@ import com.logicmonitor.msp.domain.StockPrice;
  * StockDao implementation class StockDaoJdbcImpl
  */
 public class StockDaoJdbcImpl implements StockDao {
-	private Connection conn = null;
+	private MyConnection conn = null;
 	PreparedStatement ps = null;
 	Statement st = null;
 	private ResultSet rs = null;

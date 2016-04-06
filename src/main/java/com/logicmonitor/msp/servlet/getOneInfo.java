@@ -31,7 +31,6 @@ public class getOneInfo extends HttpServlet {
 		try {
 			s = YahooFinance.get(queryParameter);
 		} catch (YahooFetchException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		si.setSymbol(s.getSymbol());

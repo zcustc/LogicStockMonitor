@@ -17,24 +17,23 @@ public final class JdbcUtils {
 	static {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			System.out.println("after class");
 			myDataSource = new MyDataSource();
 		} catch (Exception e) {
 			throw new ExceptionInInitializerError(e);
 		}
 	}
 
-//	public static DataSource getDataSource() {
-//		return myDataSource.getConnection();
-//	}
+	//	public static DataSource getDataSource() {
+	//		return myDataSource.getConnection();
+	//	}
 
-	public static Connection getConnection() throws SQLException {
+	public static MyConnection getConnection() throws SQLException {
 		//		 return DriverManager.getConnection(url, user, password);
-		System.out.println("JUtils get the connection!");
+//		System.out.println("JUtils get the connection!");
 		return myDataSource.getConnection();
 	}
 
-	public static void free(ResultSet rs, PreparedStatement st, Connection conn) {
+	public static void free(ResultSet rs, PreparedStatement st, MyConnection conn) {
 		try {
 			if (rs != null)
 				rs.close();
@@ -49,9 +48,9 @@ public final class JdbcUtils {
 			} finally {
 				if (conn != null)
 					try {
-						System.out.println("JUtils mydatasource free!");
-//												conn.close();
-						myDataSource.free(conn);
+//						System.out.println("JUtils mydatasource free!");
+						conn.close();
+//												myDataSource.free(conn);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
