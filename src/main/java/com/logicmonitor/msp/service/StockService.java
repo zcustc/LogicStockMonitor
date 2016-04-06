@@ -18,6 +18,10 @@ public class StockService {
 	StockDao dao;
 	List<String> strList;
 	boolean FirstRun;
+	TimeValidation timeValid = new TimeValidation();
+	boolean maketOpen = timeValid.isValidate();
+		
+	
 	public StockService() {
 		fetchData = new DataFetcher();
 		dao = new StockDaoJdbcImpl();
@@ -215,14 +219,14 @@ public class StockService {
 		
 		public void run() {
 			int i = 0;
-			while(true) {
+			while(maketOpen) {
 				fetchData.getRealTimeDataFromYahoo(symbolList , stockPriceList);
 				for (StockPrice stockPrice : stockPriceList ) {
 					dao.addRealTimeData(stockPrice);
 				}
 				i++;
 				try {
-					Thread.sleep(2000);
+					Thread.sleep(10000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

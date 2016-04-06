@@ -13,6 +13,7 @@
         $scope.deleteStock = deleteStock;
         $scope.updateChart = updateChart;
         $scope.alert = false;
+        $scope.marketClose = false;
 
         var visualization;
 
@@ -30,7 +31,10 @@
             var h = d.getHours();
             if (n == 6 || n == 7 || h > 13 || h < 6) {
                 updatePrice();
+                $scope.marketClose = true;
+                console.log("Market is closed!");
             } else {
+                $scope.marketClose = false;
                 setInterval(updatePrice, 5000);
             }
 
@@ -39,7 +43,7 @@
         // update stock price in stock table page
         function updatePrice() {
             angular.forEach($scope.stockArr, function(item, index) {
-                // console.log("update price");
+                console.log("updating price");
                 getPriceBySymbol(item.symbol).then(function() {
                     item.high = $scope.oneStock.high;
                     item.low = $scope.oneStock.low;
@@ -56,13 +60,7 @@
         // get stock price by stock's symbol froms server
         function getPriceBySymbol(stockSymbol) {
             var deferred = $q.defer();
-            // var d = new Date();
-            // var n = d.getDay();
-            // var h = d.getHours();
-            // if (n == 6 || n == 7 || h > 13 || h < 6) {
-            //     console.log("Market already closed!");
-            //      deferred.reject();
-            // }
+           
             if (stockSymbol) {
                 $http.get('YahooRealtimeData', { responseType: 'json', params: { symbol: stockSymbol } }).then(
                     function(res) {
@@ -223,7 +221,7 @@
                     value: "timestamp",
                     label: "Date"
                 }) //// key to use for x-axis
-                .time({ "format": "%Y-%m-%d", "value": "timestamp" })
+                .time("timestamp")//{ "format": "%Y-%m-%d", "value": "timestamp" }
                 .tooltip(["high", "low", "open", "close", "timestamp", "price"])
                 .ui([{
                     label: "Visualization Type",

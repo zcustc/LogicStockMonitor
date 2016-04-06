@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.logicmonitor.msp.domain.StockInfo;
 import com.logicmonitor.msp.domain.StockPrice;
+import com.logicmonitor.msp.service.TimeValidation;
 import com.mysql.jdbc.StringUtils;
 
 import yahoofinance.Stock;
@@ -196,7 +197,10 @@ public class DataFetcher {
 
 	// get one stock's real time stock price information from YahooAPI 
 	public void getOneRealTimeDataFromYahoo(String symbol, StockPrice stockPrice) {  
-		if(!timeValid.isValidate()) return;
+		if(!timeValid.isValidate()) {
+			System.out.println("market is closed");
+			return;
+		}
 		if(StringUtils.isNullOrEmpty(symbol)) return;
 		Stock s = null;
 		try {

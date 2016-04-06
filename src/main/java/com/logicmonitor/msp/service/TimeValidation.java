@@ -1,4 +1,4 @@
-package com.logicmonitor.msp.YahooFetcher;
+package com.logicmonitor.msp.service;
 
 import java.util.Date;
 

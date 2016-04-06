@@ -19,7 +19,6 @@ public class addOneStockToService extends HttpServlet {
 		int queryIdx = request.getQueryString().indexOf("=");
 		String queryAdd = request.getQueryString().substring(queryIdx+1, request.getQueryString().length());
 		if(queryAdd != null) {				
-			System.out.println("addone"+ queryAdd);
 			StockService stockService = new StockService();
 			stockService.fetchAddNewtoDB(queryAdd);
 			response.setStatus(response.SC_OK);

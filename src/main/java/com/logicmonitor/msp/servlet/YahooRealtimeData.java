@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.logicmonitor.msp.YahooFetcher.YahooFetchException;
 import com.logicmonitor.msp.domain.StockPrice;
+import com.logicmonitor.msp.service.TimeValidation;
 
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
@@ -25,11 +26,14 @@ import yahoofinance.quotes.stock.StockQuote;
  */
 public class YahooRealtimeData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
+	boolean marketClosed = false;
+//	TimeValidation timeValid = new TimeValidation();
+//	StockPrice mscache;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int queryIdx = request.getQueryString().indexOf("=");
 		String queryParameter = request.getQueryString().substring(queryIdx+1);
 		Stock s = null;
+
 		try {
 			s = YahooFinance.get(queryParameter);
 		} catch (YahooFetchException e) {
@@ -45,11 +49,12 @@ public class YahooRealtimeData extends HttpServlet {
 		ms.setOpen(sq.getOpen());
 		ms.setClose(sq.getPreviousClose());
 		ms.setVolume(sq.getVolume());
+
 		Type Type = new TypeToken<StockPrice>(){}.getType();
 		response.getWriter().write(new Gson().toJson(ms, Type));
 	}
 
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}

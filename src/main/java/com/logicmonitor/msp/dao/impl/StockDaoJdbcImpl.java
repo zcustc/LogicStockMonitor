@@ -17,6 +17,7 @@ import com.logicmonitor.msp.dao.JdbcUtils;
 import com.logicmonitor.msp.dao.StockDao;
 import com.logicmonitor.msp.domain.StockInfo;
 import com.logicmonitor.msp.domain.StockPrice;
+import com.logicmonitor.msp.service.TimeValidation;
 /**
  * StockDao implementation class StockDaoJdbcImpl
  */
@@ -25,6 +26,7 @@ public class StockDaoJdbcImpl implements StockDao {
 	PreparedStatement ps = null;
 	Statement st = null;
 	private ResultSet rs = null;
+
 
 	
 	public synchronized void addStockInfo(StockInfo info){
@@ -49,6 +51,7 @@ public class StockDaoJdbcImpl implements StockDao {
 
 	
 	public synchronized void addRealTimeData(StockPrice realTimeStock) {
+		
 		try {
 			conn = JdbcUtils.getConnection();
 //			conn = JdbcUtilsSingleton.getInstance().getConnection();
