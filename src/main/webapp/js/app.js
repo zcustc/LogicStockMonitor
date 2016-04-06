@@ -21,8 +21,19 @@
         init();
 
         //set update frequency
+        // function init() {
+        //     setInterval(updatePrice, 5000);
+        // }
         function init() {
-            setInterval(updatePrice, 5000);
+            var d = new Date();
+            var n = d.getDay();
+            var h = d.getHours();
+            if (n == 6 || n == 7 || h > 13 || h < 6) {
+                updatePrice();
+            } else {
+                setInterval(updatePrice, 5000);
+            }
+
         }
 
         // update stock price in stock table page
@@ -45,6 +56,13 @@
         // get stock price by stock's symbol froms server
         function getPriceBySymbol(stockSymbol) {
             var deferred = $q.defer();
+            // var d = new Date();
+            // var n = d.getDay();
+            // var h = d.getHours();
+            // if (n == 6 || n == 7 || h > 13 || h < 6) {
+            //     console.log("Market already closed!");
+            //      deferred.reject();
+            // }
             if (stockSymbol) {
                 $http.get('YahooRealtimeData', { responseType: 'json', params: { symbol: stockSymbol } }).then(
                     function(res) {
@@ -115,13 +133,13 @@
         // add new stock in stock table page
         function addStock(stockSymbol) {
             if (!(objectWithPropExists($scope.stockArr, 'symbol', stockSymbol))) {
-                 $scope.alert = false;
+                $scope.alert = false;
                 addStockDB(stockSymbol).then(function() {
                     getInfoBySymbol(stockSymbol).then(function() {
                         getPriceBySymbol(stockSymbol).then(function() {
                             $scope.stockArr.push($scope.oneStock);
                             $scope.oneStock = {};
-                            $scope.getPeriodCompanyStockInfo('A_Week_'+ stockSymbol);
+                            $scope.getPeriodCompanyStockInfo('A_Week_' + stockSymbol);
                             // console.log($scope.stockArr);
                         });
                     });
@@ -165,8 +183,6 @@
         $scope.getPeriodCompanyStockInfo = function(symbolTimeRange) {
             $http.get('GetOneHistoryPrice', { responseType: 'json', params: { symbol: symbolTimeRange } }).then(
                 function(res) {
-                    console.log("Returned info success.");
-                    console.log($scope.history_price);
                     $scope.history_price = res.data;
                     $scope.history_price.sort(function(a, b) {
                         return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
@@ -174,7 +190,6 @@
                     angular.forEach($scope.history_price, function(item, index) {
                         item.index = index.toString();
                     });
-                    console.log($scope.history_price);
                     $scope.updateChart();
                 },
                 function(err) {

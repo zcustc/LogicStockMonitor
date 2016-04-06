@@ -40,6 +40,16 @@ public class DataFetcherTest {
 	}
 
 	@Test
+	public void test_IBM_getYear() {
+		List<String> stock_symbols = new ArrayList<String>();
+		List<StockPrice> ibmStockList = new ArrayList<StockPrice>();
+		dataFetcher.getMonthLongDailyDataFromYahoo("IBM", ibmStockList);
+
+		assertEquals(2, ibmStockList.size());
+		assertTrue(ibmStockList.get(0) instanceof StockPrice);
+	}
+	
+	@Test
 	public void test_GetStockInfoFromYahoo_Should_Return_Values() {
 		StockInfo stockInfo = null;
 		stockInfo = new StockInfo();

@@ -20,6 +20,7 @@ import yahoofinance.quotes.stock.StockQuote;
  * DataFetcher class to fetch real time or history data from YahooAPI
  */
 public class DataFetcher {
+	TimeValidation timeValid = new TimeValidation();
 	// get one stock's static information from YahooAPI 
 	public void getStockInfoFromYahoo(String symbol, StockInfo stockInfo) { 
 		if(StringUtils.isNullOrEmpty(symbol)) return;
@@ -166,6 +167,7 @@ public class DataFetcher {
 
 	// get all stocks' real time stock price information from YahooAPI 
 	public void getRealTimeDataFromYahoo(List<String> symbols, List<StockPrice> myStockList ) {  
+		if(!timeValid.isValidate()) return;
 		if(symbols.size() == 0) return;
 		Map<String, Stock> yStocks = null;
 		try {
@@ -194,6 +196,7 @@ public class DataFetcher {
 
 	// get one stock's real time stock price information from YahooAPI 
 	public void getOneRealTimeDataFromYahoo(String symbol, StockPrice stockPrice) {  
+		if(!timeValid.isValidate()) return;
 		if(StringUtils.isNullOrEmpty(symbol)) return;
 		Stock s = null;
 		try {

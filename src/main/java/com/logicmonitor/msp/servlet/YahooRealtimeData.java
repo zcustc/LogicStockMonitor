@@ -30,7 +30,6 @@ public class YahooRealtimeData extends HttpServlet {
 		int queryIdx = request.getQueryString().indexOf("=");
 		String queryParameter = request.getQueryString().substring(queryIdx+1);
 		Stock s = null;
-		System.out.println(queryParameter);
 		try {
 			s = YahooFinance.get(queryParameter);
 		} catch (YahooFetchException e) {

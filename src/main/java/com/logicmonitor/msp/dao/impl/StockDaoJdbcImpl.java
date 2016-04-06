@@ -27,7 +27,7 @@ public class StockDaoJdbcImpl implements StockDao {
 	private ResultSet rs = null;
 
 	
-	public void addStockInfo(StockInfo info){
+	public synchronized void addStockInfo(StockInfo info){
 		try {
 			conn = JdbcUtils.getConnection();
 //			conn = JdbcUtilsSingleton.getInstance().getConnection();
@@ -48,7 +48,7 @@ public class StockDaoJdbcImpl implements StockDao {
 	}
 
 	
-	public  void addRealTimeData(StockPrice realTimeStock) {
+	public synchronized void addRealTimeData(StockPrice realTimeStock) {
 		try {
 			conn = JdbcUtils.getConnection();
 //			conn = JdbcUtilsSingleton.getInstance().getConnection();
@@ -66,7 +66,7 @@ public class StockDaoJdbcImpl implements StockDao {
 	}
 	
 	
-	public  void addDailyData(StockPrice dailyStock){
+	public synchronized void addDailyData(StockPrice dailyStock){
 		try {
 			conn = JdbcUtils.getConnection();			
 //			conn = JdbcUtilsSingleton.getInstance().getConnection();
@@ -84,7 +84,7 @@ public class StockDaoJdbcImpl implements StockDao {
 	}
 	
 	
-	public  void addWeeklyData(StockPrice weeklyStock){
+	public synchronized void addWeeklyData(StockPrice weeklyStock){
 		try {
 			conn = JdbcUtils.getConnection();
 //			conn = JdbcUtilsSingleton.getInstance().getConnection();
