@@ -14,12 +14,17 @@
         $scope.updateChart = updateChart;
         $scope.alert = false;
         $scope.marketClose = false;
+        $scope.predicate = 'id';
 
         var visualization;
 
         $scope.history_price = [];
 
         init();
+
+        $scope.order = function(x) {
+            $scope.myOrderBy = x;
+        }
 
         //set update frequency
         // function init() {
@@ -32,7 +37,7 @@
             if (n == 6 || n == 7 || h > 13 || h < 6) {
                 updatePrice();
                 $scope.marketClose = true;
-                console.log("Market is closed!");
+                // console.log("Market is closed!");
             } else {
                 $scope.marketClose = false;
                 setInterval(updatePrice, 5000);
@@ -60,7 +65,7 @@
         // get stock price by stock's symbol froms server
         function getPriceBySymbol(stockSymbol) {
             var deferred = $q.defer();
-           
+
             if (stockSymbol) {
                 $http.get('YahooRealtimeData', { responseType: 'json', params: { symbol: stockSymbol } }).then(
                     function(res) {
@@ -221,7 +226,7 @@
                     value: "timestamp",
                     label: "Date"
                 }) //// key to use for x-axis
-                .time("timestamp")//{ "format": "%Y-%m-%d", "value": "timestamp" }
+                .time("timestamp") //{ "format": "%Y-%m-%d", "value": "timestamp" }
                 .tooltip(["high", "low", "open", "close", "timestamp", "price"])
                 .ui([{
                     label: "Visualization Type",
