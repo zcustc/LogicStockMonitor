@@ -48,7 +48,7 @@
                                     <th data-field="stock_exchange and currency">Exchange | Currency</th>
                                     <th data-field="price">Price</th>
                                     <th data-field="range">Range</th>
-                                    <th data-field="openc">Open/Close</th>
+                                    <th data-field="openc">Open/ Previous Close</th>
                                     <th data-field="close">Previous Close</th>
                                     <th data-field="volume">Volume</th>
                                     <th data-field="action" data-formatter="actionFormatter" data-events="actionEvents">Action</th>
@@ -68,7 +68,7 @@
                                         <div class="btn-group" role="group" aria-label="...">
                                             <button type="button" class="btn btn-default" ng-click="getPeriodCompanyStockInfo('A_Week_'+stock.symbol)">Week</button>
                                             <button type="button" class="btn btn-default" ng-click="getPeriodCompanyStockInfo('A_Month_'+stock.symbol)">Month</button>
-                                            <button type="button" class="btn btn-default" ng-click="getPeriodCompanyStockInfo('A_Year_'+stock.symbol)">Year</button>
+                                            <button type="button" class="btn btn-default" ng-click="getPeriodCompanyStockInfo('A_Ye ar_'+stock.symbol)">Year</button>
                                             <button type="button" class="btn btn-default" ng-click="deleteStock(stock.symbol)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
                                         </div>
                                     </td>
