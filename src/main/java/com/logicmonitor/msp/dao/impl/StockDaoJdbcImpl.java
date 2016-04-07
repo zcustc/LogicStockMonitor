@@ -1,6 +1,5 @@
 package com.logicmonitor.msp.dao.impl;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,14 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import com.logicmonitor.msp.dao.JdbcUtilsSingleton;
 import com.logicmonitor.msp.dao.MyConnection;
 import com.logicmonitor.msp.dao.DaoException;
 import com.logicmonitor.msp.dao.JdbcUtils;
 import com.logicmonitor.msp.dao.StockDao;
 import com.logicmonitor.msp.domain.StockInfo;
 import com.logicmonitor.msp.domain.StockPrice;
-import com.logicmonitor.msp.service.TimeValidation;
 /**
  * StockDao implementation class StockDaoJdbcImpl
  */
